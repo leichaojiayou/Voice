@@ -1,0 +1,7 @@
+<view>
+    vioce List
+</view>
+
+<navigator url="/pages/record/record">
+<view class="addIcon"></view>
+</navigator>

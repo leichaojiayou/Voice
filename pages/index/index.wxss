@@ -1,0 +1,13 @@
+.addIcon {
+    position: absolute;
+    right: 80rpx;
+    bottom: 80rpx;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background: url("/images/voice.png");
+    background-size: 60px 60px;
+    background-repeat: no-repeat;
+    border: 2rpx solid red;
+}
+

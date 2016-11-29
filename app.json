@@ -1,0 +1,31 @@
+{
+  "pages":[
+    
+    "pages/index/index",
+    "pages/me/me",
+    "pages/record/record",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "backgroundColor": "#655",
+    "selectedColor":"lightgreen",
+    "color": "#fff",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "home",
+      "iconPath": "images/home.png",
+      "selectedIconPath": "images/homeHL.png"
+    },{
+      "pagePath": "pages/me/me",
+      "text": "me",
+      "iconPath": "images/me.png",
+      "selectedIconPath": "images/meHL.png"
+    }]
+  }
+}
