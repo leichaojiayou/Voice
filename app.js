@@ -75,6 +75,7 @@ App({
       }
     })
   },
+  
   setGlobalData: function() {
     console.log(this.globalData.userInfo)
   },

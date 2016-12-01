@@ -6,10 +6,10 @@
   </view>
   <view class="list-author">
     <view class="list-author-avatar">
-        <image src="{{item.avatarUrl}}" />
+        <image src="{{item.userInfo.wxInfo.avatarUrl}}" />
     </view>
     <view class="list-author-nickname">
-        <text>{{item.nickName}}</text>
+        <text>{{item.userInfo.wxInfo.nickName}}</text>
     </view>
   </view>
 
@@ -18,7 +18,7 @@
       <image src="/images/voice.png"></image>
     </view>
     <view class="list-voice-time">
-      <text>04:39</text>
+      <text>{{item.duration}}</text>
     </view>
   </view>
   
@@ -31,7 +31,6 @@
 </block>
 
 <button bindtap="test" type="default">hh</button>
-
 <navigator url="/pages/record/record">
   <view class="add">
     <image src="/images/add.png" mode="scaleToFill"></image>

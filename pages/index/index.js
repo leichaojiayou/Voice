@@ -4,81 +4,57 @@ Page({
   data: {
     list: [],
     page: 1,
+    per: 6,
+    haha: ''
   },
 
   onLoad: function() {
-    this.fetchList(token, this.requestUserInfo)
+    this.fetchList(token)
   },
 
   onPullDownRefresh: function() {
     console.log('下拉刷新')
-    this.fetchList(token, this.requestUserInfo)
+    this.fetchList(token)
   },
 
   onReachBottom: function() {
-    console.log('onReachBottom')
+    console.log('上拉刷新')
+    this.lower()
   },
 
-  fetchList: function(token, func) {
+  fetchList: function(token) {
 
     var _this = this
-    var page = page
+    var per = _this.data.per
+    var page = _this.data.page
+
     wx.showToast({
       title: '加载中',
       icon: 'loading',
       duration: 500
     })
 
-    
+    if(page === 1) {
+      _this.setData({ list: [] });
+    }
+
     wx.request({
-      url: 'https://tinyApp.sparklog.com/imaginations?token='+token,
+      url: `https://tinyApp.sparklog.com/imaginations?per=${per}&page=${page}&token=${token}`,
       method: 'GET',
       success: function(res){
-        func(res.data[6].userId, token, res.data)
+        console.log(res.data)
+        _this.setData({list: _this.data.list.concat(res.data)})
       }
     })
-  },
 
-  requestUserInfo: function(userId, token, data) {
-    console.log('requestUserInfo start')
-
-    var _this = this
-      wx.request({
-        url: `https://tinyApp.sparklog.com/user/${userId}?token=${token}`,
-        method: 'GET',
-        success: function(res){
-          console.log(res.data)
-          var list$2 = data
-          list$2.map((item, index) => {
-            item.avatarUrl = res.data.wxInfo.avatarUrl
-            item.nickName = res.data.wxInfo.nickName
-            return item
-          })
-          _this.setData({list: list$2})
-        }
-      })
   },
 
   lower: function() {
     this.setData({page: this.data.page + 1})
-    this.fetchList()
+    this.fetchList(token)
   },
 
-  test: function() {
-    console.log('test')
-    wx.playVoice({
-      filePath: 'https://tinyapp.sparklog.com/static/uploads/da39a3ee5e6b4b0d3255bfef95601890afd80709silk.silk',
-      success: function(res){
-        console.log(res)
-      },
-      fail: function() {
-        console.log('fail')
-      },
-      complete: function() {
-         console.log('complete')
-      }
-    })
-  }    
+     
 })
 
 
