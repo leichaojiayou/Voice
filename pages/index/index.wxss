@@ -1,13 +1,67 @@
-.addIcon {
-    position: absolute;
-    right: 80rpx;
-    bottom: 80rpx;
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
-    background: url("/images/voice.png");
-    background-size: 60px 60px;
-    background-repeat: no-repeat;
-    border: 2rpx solid red;
+.list {
+  width: 100%;
+  padding: 40rpx;
+  box-sizing: border-box;
 }
 
+.list-title {
+  font-size: 20pt;
+}
+.list-author {
+  margin: 6pt 0pt;
+}
+
+.list-author-avatar {
+    display: inline-block;
+}
+.list-author-avatar image{
+    width: 20pt;
+    height: 20pt;
+    border-radius: 50%;
+}
+.list-author-nickname {
+    display: inline-block;
+    margin-left: 4pt;
+    font-size: 13pt;
+    color: rgb(136,136,136)
+}
+
+.list-voice {  
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.list-voice-img {
+    width: 346rpx;
+    background: rgb(80,227,194);
+    border-radius: 4pt;
+    padding: 20rpx;
+}
+
+.list-voice-img image{
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.list-voice-time {
+  margin-left: 30rpx;
+  color: rgb(178,178,178);
+}
+
+.list-description {
+    margin-top: 40rpx;
+    font-size: 14pt;
+    color: rgb(53,53,53);
+}
+
+.add {
+  position: fixed;
+  bottom: 80rpx;
+  right: 80rpx;
+}
+
+.add image {
+  width: 128rpx;
+  height: 128rpx;
+}

@@ -1,0 +1,23 @@
+<view class="finish">
+  
+  <view class="finish-play">
+    <view class="finish-play-progress">
+      <text>{{stringTime}}</text>
+      <progress percent="{{percent}}" stroke-width="6"/>
+    </view>
+    <view class="finish-play-btn"
+      catchtap = "playCatchTap">
+      <image src="{{playing ? '/images/pause.png' : '/images/play.png' }}"></image>
+    </view>
+  </view>
+
+  <view class="finish-title">
+    <input bindblur="titleBindblur" placeholder="标题" />
+  </view>
+
+  <view class="finish-description">
+    <textarea bindblur="descriptionBindblur" placeholder="描述"/>
+  </view>
+  
+  <button catchtap="uploadCatchTap" type="primary">发布</button>
+</view>

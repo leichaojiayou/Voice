@@ -1,16 +1,18 @@
 {
   "pages":[
-    
     "pages/index/index",
+    "pages/finish/finish",
+    
+    "pages/record/record", 
     "pages/me/me",
-    "pages/record/record",
     "pages/logs/logs"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
+    "navigationBarTitleText": "晓想",
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh":"true"
   },
   "tabBar": {
     "backgroundColor": "#655",

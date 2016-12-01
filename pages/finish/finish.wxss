@@ -1,0 +1,42 @@
+.finish {
+  width: 100%;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+
+.finish-play {
+  display: flex;
+  margin-bottom: 40rpx;
+}
+
+.finish-play-progress {
+  flex: 1;
+}
+
+.finish-play-btn {
+  width: 92rpx;
+  height: 92rpx;
+  margin-left: 40rpx;
+}
+.finish-play-btn image {
+  width: 92rpx;
+  height: 92rpx;
+}
+
+
+
+.finish-title {
+  background: #eee;
+  border-radius: 4px;
+  padding: 28rpx;
+  margin-bottom: 30rpx;
+}
+.finish-description {
+  background: #eee;
+  border-radius: 4px;
+  padding: 28rpx;
+  margin-bottom: 30rpx;
+}
+.finish button{
+  position: relative;
+}

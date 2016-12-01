@@ -1,20 +1,19 @@
 
-<view  wx:if="{{stopRecord}}">
-  <view bindtap="palyRecord" class="play-box"> 
-    <image src="/images/playVoice.png"></image>
-    <progress percent="{{percent}}" stroke-width="2" />
-    <text>时长：{{time}}ms</text>
-  </view>
-
-  <view class="upload-btn">
-    <button type="primary">发布</button>
-  </view>
+<view class="hint">
+    <text>录音3-7分钟</text>
 </view>
 
+<view class="move-graphics {{}} ">
+  <image src="/images/graphics.png" mode="scaleToFill"></image>
+</view>
 
 
 <view class="bottom-box">
-  <view bindtap="bindTapRecord" class="bottom-btn {{Recording ? 'bottom-btn-recording' : ''}}">
+  <view class="bottom-box-time">
+    <text>{{stringTime}}</text>
   </view>
-  <text class="bottom-info">{{bottomInfo}}</text>
+  <view  bindtap="bindTapRecord" class="bottom-box-outer-btn">
+    <view  class="bottom-box-btn {{Recording ? 'bottom-box-btn-recording' : ''}}"></view>
+  </view>
 </view>
+

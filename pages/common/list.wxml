@@ -1,0 +1,5 @@
+<template name="voiceList">
+  <view>
+    <text> Time:</text>
+  </view>
+</template>

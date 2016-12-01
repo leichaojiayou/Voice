@@ -1,7 +1,40 @@
-<view>
-    vioce List
+<block wx:for="{{list}}" wx:key="{{index}}">
+<scroll-view scroll-y="true" style="height:100%"  bindscrolltolower="lower" >
+<view class="list">
+  <view class="list-title">
+    <text>{{item.title}}</text>
+  </view>
+  <view class="list-author">
+    <view class="list-author-avatar">
+        <image src="{{item.avatarUrl}}" />
+    </view>
+    <view class="list-author-nickname">
+        <text>{{item.nickName}}</text>
+    </view>
+  </view>
+
+  <view class="list-voice">
+    <view class="list-voice-img">
+      <image src="/images/voice.png"></image>
+    </view>
+    <view class="list-voice-time">
+      <text>04:39</text>
+    </view>
+  </view>
+  
+
+  <view class="list-description">
+    {{item.description}}
+  </view>
 </view>
+</scroll-view>
+</block>
+
+<button bindtap="test" type="default">hh</button>
 
 <navigator url="/pages/record/record">
-<view class="addIcon"></view>
+  <view class="add">
+    <image src="/images/add.png" mode="scaleToFill"></image>
+  </view>
 </navigator>
+
