@@ -1,16 +1,23 @@
 var app = getApp();
+var util = require('../../utils/util.js')
 Page({
   data: {
     durationTime: '',
     stringTime: '00:00',
+    numberTime: 0,
     playing: false,
     title: '',
     description: '',
-    percent: 0
+    percent: 0,
+    btnText: '分享',
+    error: false,
+    errorInfo: '',
+    titleFocus: false,
+    descriptionFocus: false,
   },
 
   onLoad: function() {
-    console.log(app.globalData)
+    
     this.setData({stringTime: app.globalData.stringTime})
     this.setData({durationTime: app.globalData.durationTime})
   },
@@ -30,39 +37,45 @@ Page({
     else {
       this.setData({
         playing: true,
-        percent: 0
+        percent: 0,
+        numberTime: 0
       })
+
       _this.showPercent()
-      
+      _this.showTime()
+
       wx.playVoice({
         filePath: app.globalData.tempfillPath,
         complete: function(res){
           console.log('123')
           _this.setData({
-            playing: false
+            playing: false,
+            percent: 100
           })
         }
       })
+
     }
   },
 
-  titleBindblur: function(e) {
-    if(e.detail.value == '') {
-      console.log('标题不能为空')
-    }
+  titleBindBlurt: function(e) {
     this.setData({title: e.detail.value})
-    
   },
 
-  descriptionBindblur: function(e) {
-    if(e.detail.value == '') {
-      console.log('描述不能为空')
-    }
+  descriptionBindBlur: function(e) {
     this.setData({description: e.detail.value})
   },
 
   uploadCatchTap: function() {
+
+    
+    this.inputCheck(this.uploadInit)
+
+  },
+
+  uploadInit: function() {
     var _this = this
+    console.log('start upload')
     var token = wx.getStorageSync('token')
     wx.uploadFile({
       url: 'https://tinyApp.sparklog.com/upload?token=' + token,
@@ -92,10 +105,22 @@ Page({
       method: 'POST', 
       success: function(res){
         console.log('upload again sucess', res)
-        //上传成功后跳转到首页！
-        wx.navigateBack({
-          delta: 2,
-        })
+        _this.setData({btnText: '上传成功'})
+        //提示框
+        wx.showModal({
+          title: '上传成功',
+          showCancel: false,
+          confirmColor: '#50e3c2',
+          confirmText: '确定',
+          success: function(res) {
+            if (res.confirm) {
+              console.log('回到首页')
+              wx.navigateBack({
+                delta: 2,
+              })
+            }
+          }
+       })
       },
       fail: function() {
        console.log('upload again fail', res)
@@ -104,16 +129,68 @@ Page({
   },
 
   showPercent: function() {
+    console.log('show percent')
     var _this = this
-    if(_this.data.percent == 100) return
-            
+    if(this.data.percent > 100) return
     _this.setData({percent: _this.data.percent + 100/(_this.data.durationTime/500)})
+    if(_this.data.playing) {
+      setTimeout(function(){
+        _this.showPercent()  
+      }, 500)
+    }
+    
+  },
+
+  showTime: function() {
+    var _this = this
+    console.log('showTime')
+    if(this.data.numberTime * 1000 > this.data.durationTime) return
+    _this.setData({numberTime: _this.data.numberTime + 1})
+    _this.setData({stringTime: util.NumberToTime(this.data.numberTime)})
+
+    if(_this.data.playing) {
+      setTimeout(function(){
+        _this.showTime()
+      }, 1000)
+    }
+  },
+
+  inputCheck: function(func) {
+    var _this = this
+    var checkSuccess = false
     setTimeout(function(){
-        _this.showPercent()
-    }, 500)
+      if(_this.data.title == ''){
+        _this.setData({
+          error: true,
+          errorInfo: '标题不能为空',
+          titleFocus: true
+        })
+        return
+         
+      }
+      if(_this.data.description == '') {
+          _this.setData({
+            error: true,
+            errorInfo: '描述信息不能为空',
+            descriptionFocus: true
+          })
+        return     
+      }
+
+      _this.setData({error: false, btnText: '上传中', loading: true})
+      func()
+      
+       
+      }, 100)
+
   }
 
     
 })
 
 
+// TextArea 失去焦点
+//  
+//
+
+// 

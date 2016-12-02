@@ -37,6 +37,7 @@ Page({
       app.globalData.durationTime = endTime - startTime
     
       app.globalData.stringTime = _this.data.stringTime
+      
       app.setGlobalData('userInfo')  
 
 

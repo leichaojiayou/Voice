@@ -1,20 +1,61 @@
 /**index.wxss**/
 .userinfo {
-
   border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
 }
 
 .userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
+  width: 94rpx;
+  height: 94rpx;
   margin: 20rpx;
   border-radius: 50%;
 }
 
 .userinfo-nickname {
-  position: relative;
-  top: -100rpx;
-  left: 40rpx;
-  color: #aaa;
+  font-size: 14pt;
 }
 
+.list {
+  width: 100%;
+  padding: 40rpx;
+  box-sizing: border-box;
+  border-bottom: 1px solid #eee;
+}
+
+.list-title {
+  font-size: 16pt;
+  margin-bottom: 32rpx;
+}
+
+
+.list-voice {  
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.list-voice-img {
+    width: 346rpx;
+    height: 72rpx;
+    background: rgb(80,227,194);
+    border-radius: 4pt;
+    padding: 18rpx 30rpx;
+    box-sizing: border-box;
+}
+
+.list-voice-img image{
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.list-voice-time {
+  margin-left: 30rpx;
+  color: rgb(178,178,178);
+}
+
+.list-description {
+    margin-top: 36rpx;
+    font-size: 12pt;
+    color: rgb(53,53,53);
+}

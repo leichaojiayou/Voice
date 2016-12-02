@@ -5,8 +5,9 @@
 }
 
 .list-title {
-  font-size: 20pt;
+  font-size: 14pt;
 }
+
 .list-author {
   margin: 6pt 0pt;
 }
@@ -15,8 +16,8 @@
     display: inline-block;
 }
 .list-author-avatar image{
-    width: 20pt;
-    height: 20pt;
+    width: 40rpx;
+    height: 40rpx;
     border-radius: 50%;
 }
 .list-author-nickname {
@@ -36,9 +37,11 @@
 
 .list-voice-img {
     width: 346rpx;
+    height: 72rpx;
     background: rgb(80,227,194);
     border-radius: 4pt;
-    padding: 20rpx;
+    padding: 18rpx 30rpx;
+    box-sizing: border-box;
 }
 
 .list-voice-img image{
@@ -53,14 +56,14 @@
 
 .list-description {
     margin-top: 40rpx;
-    font-size: 14pt;
+    font-size: 12pt;
     color: rgb(53,53,53);
 }
 
 .add {
   position: fixed;
   bottom: 80rpx;
-  right: 80rpx;
+  right: 60rpx;
 }
 
 .add image {

@@ -1,17 +1,9 @@
-<template name="list">
+<template name="meList">
 <block wx:for="{{list}}" wx:key="{{index}}">
 <scroll-view scroll-y="true" style="height:100%"  bindscrolltolower="lower" >
 <view class="list">
   <view class="list-title">
     <text>{{item.title}}</text>
-  </view>
-  <view class="list-author">
-    <view class="list-author-avatar">
-        <image src="{{item.userInfo.wxInfo.avatarUrl}}" />
-    </view>
-    <view class="list-author-nickname">
-        <text>{{item.userInfo.wxInfo.nickName}}</text>
-    </view>
   </view>
 
   <view class="list-voice">

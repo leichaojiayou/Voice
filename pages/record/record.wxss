@@ -38,7 +38,7 @@
 
 .bottom-box-btn {
   margin: 0 auto;
-  background: #655;
+  background: #50e3c2;
   height: 84rpx;
   width: 84rpx;
   border-radius: 50%;
@@ -48,6 +48,7 @@
 .bottom-box-btn-recording {
   height: 54rpx;
   width: 54rpx;
+  background: rgb(237,124,84);
   border-radius: 0%;
 }
 

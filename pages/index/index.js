@@ -1,3 +1,4 @@
+var util = require('../../utils/util.js')
 var token = wx.getStorageSync('token')
 
 Page({
@@ -5,7 +6,6 @@ Page({
     list: [],
     page: 1,
     per: 6,
-    haha: ''
   },
 
   onLoad: function() {
@@ -43,7 +43,11 @@ Page({
       method: 'GET',
       success: function(res){
         console.log(res.data)
-        _this.setData({list: _this.data.list.concat(res.data)})
+        _this.setData({list: _this.data.list.concat(res.data.map(function(item){
+            item.duration = util.NumberToTime(Math.floor(item.duration/1000))
+            return item
+          }))
+        })
       }
     })
 
@@ -54,8 +58,23 @@ Page({
     this.fetchList(token)
   },
 
+  test: function() {
+    wx.showModal({
+      title: '上传成功',
+      showCancel: false,
+      confirmColor: '#50e3c2',
+      confirmText: '确定',
+      success: function(res) {
+        if (res.confirm) {
+          console.log('回到首页')
+        }
+      }
+    })
+  }
+
      
 })
 
 
 // https://tinyApp.sparklog.com/static/uploads/dsafasdf
+//static/uploads/da39a3ee5e6b4b0d3255bfef95601890afd80709wx-file.silk

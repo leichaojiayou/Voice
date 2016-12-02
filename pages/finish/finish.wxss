@@ -1,42 +1,71 @@
 .finish {
   width: 100%;
-  padding: 40rpx;
+  padding: 0 40rpx;
   box-sizing: border-box;
+}
+
+.finish-title {
+  background: #ffffff;
+  border: solid 1px rgb(151,151,151);
+  border-radius: 4px;
+  padding: 16rpx 30rpx;
+  margin-bottom: 40rpx;
+}
+
+.finish-description {
+  background: #ffffff;
+  border: solid 1px rgb(151,151,151);
+  border-radius: 4px;
+  padding: 30rpx;
+  height: 460rpx;
+  margin-bottom: 60rpx;
 }
 
 .finish-play {
   display: flex;
   margin-bottom: 40rpx;
+  background: rgb(98,127,143);
+  height: 110rpx;
+  border-radius: 55rpx;
+  align-items: center;
 }
 
 .finish-play-progress {
   flex: 1;
+  margin: 0 20rpx;
+}
+
+.finish-play-time {
+  margin-right: 22rpx;
+  color: #ffffff;
 }
 
 .finish-play-btn {
-  width: 92rpx;
-  height: 92rpx;
-  margin-left: 40rpx;
+  width: 66rpx;
+  height: 66rpx;
+  margin-left: 22rpx;
 }
 .finish-play-btn image {
-  width: 92rpx;
-  height: 92rpx;
+  width: 66rpx;
+  height: 66rpx;
 }
 
-
-
-.finish-title {
-  background: #eee;
-  border-radius: 4px;
-  padding: 28rpx;
-  margin-bottom: 30rpx;
-}
-.finish-description {
-  background: #eee;
-  border-radius: 4px;
-  padding: 28rpx;
-  margin-bottom: 30rpx;
-}
 .finish button{
   position: relative;
+  bottom: -100rpx;
+  color: #ffffff;
+}
+
+
+.error {
+  background: #ffffff;
+  font-size: 10pt;
+  padding: 20rpx;
+  text-align: center;
+  color: #fff;
+  height: 30rpx;
+}
+
+.error_show {
+  background: red;
 }
