@@ -1,32 +1,34 @@
 {
   "pages":[
-    
     "pages/index/index",
-      "pages/finish/finish", 
-    
     "pages/record/record", 
+    
+    "pages/finish/finish", 
+    
+    
     "pages/me/me",
     "pages/logs/logs"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#000",
+    "navigationBarBackgroundColor": "#50e3c2",
     "navigationBarTitleText": "晓想",
     "navigationBarTextStyle":"#fff",
     "enablePullDownRefresh":"true"
   },
   "tabBar": {
-    "backgroundColor": "#655",
+    "backgroundColor": "#fbfbfb",
+    "borderStyle": "white",
     "selectedColor":"lightgreen",
-    "color": "#fff",
+    "color": "#aaa",
     "list": [{
       "pagePath": "pages/index/index",
-      "text": "home",
+      "text": "首页",
       "iconPath": "images/home.png",
       "selectedIconPath": "images/homeHL.png"
     },{
       "pagePath": "pages/me/me",
-      "text": "me",
+      "text": "我",
       "iconPath": "images/me.png",
       "selectedIconPath": "images/meHL.png"
     }]

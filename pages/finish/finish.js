@@ -105,7 +105,7 @@ Page({
       method: 'POST', 
       success: function(res){
         console.log('upload again sucess', res)
-        _this.setData({btnText: '上传成功'})
+        _this.setData({btnText: '上传成功', loading: false})
         //提示框
         wx.showModal({
           title: '上传成功',

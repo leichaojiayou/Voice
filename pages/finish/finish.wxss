@@ -52,7 +52,7 @@
 
 .finish button{
   position: relative;
-  bottom: -100rpx;
+  bottom: -60rpx;
   color: #ffffff;
 }
 
@@ -60,10 +60,11 @@
 .error {
   background: #ffffff;
   font-size: 10pt;
-  padding: 20rpx;
+  padding: 20rpx 0;
   text-align: center;
   color: #fff;
-  height: 30rpx;
+  height: 26rpx;
+  margin-bottom:8rpx; 
 }
 
 .error_show {

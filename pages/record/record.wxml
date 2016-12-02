@@ -1,11 +1,10 @@
 
 <view class="hint">
     <text>录音3-7分钟</text>
+    <!--<image src="/images/graphics.png" mode="scaleToFill"></image>-->
 </view>
 
-<view class="move-graphics {{}} ">
-  <image src="/images/graphics.png" mode="scaleToFill"></image>
-</view>
+
 
 
 <view class="bottom-box">

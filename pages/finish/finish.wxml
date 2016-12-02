@@ -4,6 +4,8 @@
     <text>{{errorInfo}}</text>
   </view>
 
+
+
   <view class="finish-title">
     <input bindblur="titleBindBlurt" placeholder="标题" focus="{{titleFocus}}" />
   </view>
