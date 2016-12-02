@@ -78,7 +78,7 @@ Page({
     console.log('start upload')
     var token = wx.getStorageSync('token')
     wx.uploadFile({
-      url: 'https://tinyApp.sparklog.com/upload?token=' + token,
+      url: 'https://tinyapp.sparklog.com/upload?token=' + token,
       filePath: app.globalData.tempfillPath,
       name:'imagination',
       success: function(res){

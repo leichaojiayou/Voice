@@ -39,7 +39,7 @@ Page({
     }
 
     wx.request({
-      url: `https://tinyApp.sparklog.com/imaginations?per=${per}&page=${page}&token=${token}`,
+      url: `https://tinyapp.sparklog.com/imaginations?per=${per}&page=${page}&token=${token}`,
       method: 'GET',
       success: function(res){
         console.log(res.data)
