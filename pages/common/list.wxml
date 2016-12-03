@@ -2,31 +2,33 @@
 <block wx:for="{{list}}" wx:key="{{index}}">
 <scroll-view scroll-y="true" style="height:100%"  bindscrolltolower="lower" >
 <view class="list">
-  <view class="list-title">
-    <text>{{item.title}}</text>
-  </view>
-  <view class="list-author">
-    <view class="list-author-avatar">
-        <image src="{{item.userInfo.wxInfo.avatarUrl}}" />
-    </view>
-    <view class="list-author-nickname">
-        <text>{{item.userInfo.wxInfo.nickName}}</text>
-    </view>
+
+  <view class="list-avatar">
+    <image src="{{item.userInfo.wxInfo.avatarUrl}}" />
   </view>
 
-  <view class="list-voice">
-    <view class="list-voice-img">
-      <image src="/images/voice.png"></image>
-    </view>
-    <view class="list-voice-time">
-      <text>{{item.duration}}</text>
-    </view>
-  </view>
-  
+  <view class="list-side">
 
-  <view class="list-description">
-    {{item.description}}
+    <view class="list-title">
+      <text>{{item.title}}</text>
+    </view>
+
+    <view class="list-voice">
+      <view class="list-voice-img" data-path="{{item.path}}" bindtap="palyVoice">
+        <image src="/images/voice.png"></image>
+      </view>
+      <view class="list-voice-time">
+        <text>{{item.duration}}</text>
+      </view>
+    </view>
+    
+
+    <view class="list-description">
+      {{item.description}}
+    </view>
+
   </view>
+
 </view>
 </scroll-view>
 </block>

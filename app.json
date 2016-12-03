@@ -1,11 +1,9 @@
 {
   "pages":[
+     
     "pages/index/index",
-    "pages/record/record", 
-    
+    "pages/record/record",  
     "pages/finish/finish", 
-    
-    
     "pages/me/me",
     "pages/logs/logs"
   ],
@@ -19,7 +17,7 @@
   "tabBar": {
     "backgroundColor": "#fbfbfb",
     "borderStyle": "white",
-    "selectedColor":"lightgreen",
+    "selectedColor":"#50e3c2",
     "color": "#aaa",
     "list": [{
       "pagePath": "pages/index/index",

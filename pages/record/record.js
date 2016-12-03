@@ -38,7 +38,7 @@ Page({
     
       app.globalData.stringTime = _this.data.stringTime
       
-      app.setGlobalData('userInfo')  
+      
 
 
       this.setData({ Recording: false})

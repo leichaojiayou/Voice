@@ -10,7 +10,7 @@ Page({
     userInfo: {},
     list: [],
     page: 1,
-    per: 100
+    per: 10
   },
   //事件处理函数
   bindViewTap: function() {

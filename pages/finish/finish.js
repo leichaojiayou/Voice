@@ -55,6 +55,7 @@ Page({
         }
       })
 
+
     }
   },
 
@@ -77,6 +78,8 @@ Page({
     var _this = this
     console.log('start upload')
     var token = wx.getStorageSync('token')
+    console.log('tempfillpath: ',app.globalData.tempfillPath)
+
     wx.uploadFile({
       url: 'https://tinyapp.sparklog.com/upload?token=' + token,
       filePath: app.globalData.tempfillPath,
@@ -89,6 +92,8 @@ Page({
         console.log('upload fail', res)
       }
     })
+
+
   },
 
   uploadAgain: function(dataJson) {
@@ -107,20 +112,15 @@ Page({
         console.log('upload again sucess', res)
         _this.setData({btnText: '上传成功', loading: false})
         //提示框
-        wx.showModal({
-          title: '上传成功',
-          showCancel: false,
-          confirmColor: '#50e3c2',
-          confirmText: '确定',
-          success: function(res) {
-            if (res.confirm) {
-              console.log('回到首页')
-              wx.navigateBack({
-                delta: 2,
-              })
-            }
-          }
-       })
+        wx.showToast({
+          title: '发布成功',
+          icon: 'success',
+          duration: 1200
+        })
+        setTimeout(function(){
+          wx.navigateBack({delta: 2})
+        },1200)
+        
       },
       fail: function() {
        console.log('upload again fail', res)

@@ -6,37 +6,18 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    var token = wx.getStorageSync('token')
-    var code 
-    
-    if(token == '') {
-      wx.login({
-        success: function(res){
-          code = res.code
-          wx.getUserInfo({
-            success: function (res) {
-              console.log('getUserinfo', res)
-              wx.request({
-                url: 'https://tinyapp.sparklog.com/session?',
-                data: {
-                  code: code,
-                  newteo: '3a15f915b70de44dddf1819dc5ce311e10d68569',                  
-                  iv: res.iv,
-                  encryptedData: res.encryptedData
-                },
-                method: 'GET', 
-                success: function(res){
-                  wx.setStorageSync('token', res.data.token)
-                  console.log('token in comming...')
-                  console.log(res)
-                }
-              })
-            }
-          })  
-        }
-      })
-    }
+    // var _this = this
 
+    // wx.getStorage({
+    //   key: 'token',
+    //   success: function(res) {
+    //     console.log('already has token')
+    //   },
+    //   fail: function() {
+    //     console.log('generateToken token')
+    //     _this.generateToken()
+    //   }
+    // })
   },
   
   getUserInfo:function(cb){
@@ -58,27 +39,48 @@ App({
     }
   },
 
-  fetchToken: function(code, iv, encryptedData) {
-    wx.request({
-      url: 'https://tinyapp.sparklog.com/session?',
-      data: {
-        code: code,
-        newteo: '3a15f915b70de44dddf1819dc5ce311e10d68569',                  
-        iv: iv,
-        encryptedData: encryptedData
+  getToken: function(callback) {
+    var _this = this
+    wx.getStorage({
+      key: 'token',
+      success: function(res) {
+        typeof callback == "function" && callback(res.data)
       },
-      method: 'GET', 
+      fail: function() {
+        _this.generateToken(callback)
+      }
+    })
+  },
+
+  generateToken: function(callback) {
+    var code;
+    wx.login({
       success: function(res){
-        wx.setStorageSync('token', res.data.token)
-        console.log('token in comming...')
-        console.log(res)
+        code = res.code
+        wx.getUserInfo({
+          success: function (res) {
+            wx.request({
+              url: 'https://tinyapp.sparklog.com/session?',
+              data: {
+                code: code,
+                newteo: '3a15f915b70de44dddf1819dc5ce311e10d68569',                  
+                iv: res.iv,
+                encryptedData: res.encryptedData
+              },
+              method: 'GET', 
+              success: function(res){
+                typeof callback == "function" && callback(res.data.token)
+                wx.setStorageSync('token', res.data.token)
+                console.log('token: ', res.data.token)
+              }
+            })
+          }
+        })  
       }
     })
   },
   
-  setGlobalData: function() {
-    console.log(this.globalData.userInfo)
-  },
+
   globalData:{
     userInfo:null,
     tempfillPath: null,

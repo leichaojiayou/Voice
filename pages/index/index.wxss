@@ -2,32 +2,37 @@
   width: 100%;
   padding: 40rpx;
   box-sizing: border-box;
+  
+  display: flex;
+  border-bottom: 1px solid #eee;
 }
+
+.list-avatar {
+  
+  
+}
+
+.list-avatar image {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  border: 1px solid #eee;
+}
+
+
+.list-side {
+  margin-left: 40rpx;
+  width: 100%;
+  
+}
+
 
 .list-title {
   font-size: 14pt;
+  margin-bottom: 20rpx;
 }
 
-.list-author {
-  margin: 6pt 0pt;
-}
 
-.list-author-avatar {
-    display: inline-block;
-}
-.list-author-avatar image{
-    width: 40rpx;
-    height: 40rpx;
-    border-radius: 50%;
-}
-.list-author-nickname {
-    display: inline-block;
-    position: relative;
-    top: -10rpx;
-    margin-left: 4pt;
-    font-size: 7pt;
-    color: rgb(136,136,136)
-}
 
 .list-voice {  
     display: flex;
@@ -58,6 +63,9 @@
     margin-top: 40rpx;
     font-size: 12pt;
     color: rgb(53,53,53);
+    line-height: 1.4em;
+
+
 }
 
 .add {
