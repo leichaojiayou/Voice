@@ -16,12 +16,16 @@
   font-size: 14pt;
 }
 
+
+
 .list {
   width: 100%;
   padding: 40rpx;
   box-sizing: border-box;
   border-bottom: 1px solid #eee;
 }
+
+
 
 .list-title {
   font-size: 16pt;
@@ -34,6 +38,7 @@
     justify-content: flex-start;
     align-items: center;
 }
+
 
 .list-voice-img {
     width: 346rpx;

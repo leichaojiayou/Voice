@@ -1,8 +1,8 @@
 {
   "pages":[
-     
+      
     "pages/index/index",
-    "pages/record/record",  
+    "pages/record/record", 
     "pages/finish/finish", 
     "pages/me/me",
     "pages/logs/logs"
@@ -11,8 +11,7 @@
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#50e3c2",
     "navigationBarTitleText": "晓想",
-    "navigationBarTextStyle":"#fff",
-    "enablePullDownRefresh":"true"
+    "navigationBarTextStyle":"#fff"
   },
   "tabBar": {
     "backgroundColor": "#fbfbfb",

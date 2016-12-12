@@ -1,6 +1,6 @@
 <template name="list">
 <block wx:for="{{list}}" wx:key="{{index}}">
-<scroll-view scroll-y="true" style="height:100%"  bindscrolltolower="lower" >
+<scroll-view scroll-y="true" style="height:100%"  bindscrolltolower="lower" scroll-top="{{scrollTop}}">
 <view class="list">
 
   <view class="list-avatar">
@@ -13,9 +13,9 @@
       <text>{{item.title}}</text>
     </view>
 
-    <view class="list-voice">
-      <view class="list-voice-img" data-path="{{item.path}}" bindtap="palyVoice">
-        <image src="/images/voice.png"></image>
+    <view class="list-voice"  >
+      <view class="list-voice-img" >
+        <image src="/images/voice.png" data-path="{{item.path}}" catchtap="palyVoice"></image>
       </view>
       <view class="list-voice-time">
         <text>{{item.duration}}</text>

@@ -41,10 +41,76 @@ var NumberToTime = function(num) {
   }
 }
 
+//获取 code
+var fetchCode = function(callback) {
+  console.log('fetchCode')
+  wx.login({
+    success: function(res){
+      console.log('login success')
+      typeof callback === "function" && callback(res.code)
+    },
+    fail: function() {
+      console.log('login fail')
+      wx.showModal({
+        title: '错误',
+        content: '服务器获取code时发生错误',
+      })
+    }
+  }) 
+}
+
+// 获取token和userInfo
+var fetchInfo = function(callback) {
+  
+  fetchCode(function(code) {
+
+    wx.getUserInfo({
+      success: function(res){
+        wx.request({
+          url: 'https://tinyapp.sparklog.com/session',
+          data: {
+            code: code,
+            newteo: '3a15f915b70de44dddf1819dc5ce311e10d68569',                  
+            iv: res.iv,
+            encryptedData: res.encryptedData
+          },
+          method: 'GET',
+          success: function(res){
+            typeof callback == "function" && callback(res.data)
+            wx.setStorageSync('info', JSON.stringify(res.data))
+          },
+          fail: function() {
+            console.error('wx.request 在 fethchInfo 中发生错误')
+          }
+        })
+      },
+      fail: function() {
+        console.error('wx.getUserInfo 在 fethchInfo 中发生错误')
+      }
+    })
+
+  })
+}
+
+var getInfo = function(callback) {
+  
+  wx.getStorage({
+    key: 'info',
+    success: function(res) {
+      typeof callback === "function" && callback(res.data)
+    },
+    fail: function() {
+      console.log(fetchInfo)
+      fetchInfo(callback)
+    }
+  })
+}
+
 
 
 module.exports = {
   formatTime: formatTime,
   getCurrentTime: getCurrentTime,
-  NumberToTime: NumberToTime
+  NumberToTime: NumberToTime,
+  getInfo: getInfo
 }
