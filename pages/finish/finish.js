@@ -1,9 +1,11 @@
 var app = getApp();
 var util = require('../../utils/util.js')
+var Api = require('../../utils/api.js')
 Page({
   data: {
-    durationTime: '',
+    token: '',
     stringTime: '00:00',
+    durationTime: '',    
     numberTime: 0,
     playing: false,
     title: '',
@@ -17,90 +19,68 @@ Page({
   },
 
   onLoad: function() {
-    
-    this.setData({stringTime: app.globalData.stringTime})
-    this.setData({durationTime: app.globalData.durationTime})
+    var info = wx.getStorageSync('info');
+    typeof info === 'object' ? '' : info = JSON.parse(info)
+    this.setData({
+      token: info.token,
+      stringTime: app.globalData.stringTime,
+      durationTime: app.globalData.durationTime
+    })
   },
 
-  playCatchTap: function(){
-    var _this = this
-    if(this.data.playing) {
-      this.setData({
-        playing: false,
-      })
-      wx.stopVoice({
-        success: function(res){
-          console.log('stop play success ...')
-        }
-      })
-    }
-    else {
-      this.setData({
-        playing: true,
-        percent: 0,
-        numberTime: 0
-      })
-
-      _this.showPercent()
-      _this.showTime()
-
-      wx.playVoice({
-        filePath: app.globalData.tempfillPath,
-        complete: function(res){
-          console.log('123')
-          _this.setData({
-            playing: false,
-            percent: 100
-          })
-        }
-      })
-
-
-    }
-  },
-
-  titleBindBlurt: function(e) {
+  titleBindInput: function(e) {
     this.setData({title: e.detail.value})
   },
 
+  //textarea只能在失去焦点的时候监听其数据,这是一个微信的bug,后期会修复！
   descriptionBindBlur: function(e) {
     this.setData({description: e.detail.value})
   },
 
   uploadCatchTap: function() {
+    this.setData({descriptionFocus: false})
+    this.inputCheck({
+      title: this.data.title,
+      description: this.data.description,
+      success: () => {
+        this.setData({error: false})
+        this.uploadInit()
+      },
+      fail: (res) => {
+        this.setData({error: true, errorInfo: res})
+      }
+    })
+  },
 
-    
-    this.inputCheck(this.uploadInit)
-
+  inputCheck: function(obj) {
+    if(obj.title === '')
+      obj.fail('标题不能为空')
+    else if(obj.description === '')
+      obj.fail('描述不能为空')
+    else
+      obj.success()
   },
 
   uploadInit: function() {
     var _this = this
-    console.log('start upload')
-    var token = wx.getStorageSync('token')
-    console.log('tempfillpath: ',app.globalData.tempfillPath)
-
+    var apiUrl = Api.upload + '?token=' + this.data.token 
     wx.uploadFile({
-      url: 'https://tinyapp.sparklog.com/upload?token=' + token,
+      url: apiUrl,
       filePath: app.globalData.tempfillPath,
       name:'imagination',
       success: function(res){
-        console.log('upload success', res)
         _this.uploadAgain(res.data)
       },
       fail: function(res) {
-        console.log('upload fail', res)
+        console.error('upload fail', res)
       }
     })
-
-
   },
 
   uploadAgain: function(dataJson) {
     var _this = this
-    var token = wx.getStorageSync('token')
     wx.request({
-      url: 'https://tinyApp.sparklog.com/imagination?token=' + token,
+      url: 'https://tinyApp.sparklog.com/imagination?token=' + _this.data.token,
       data: {
         title: _this.data.title,
         description: _this.data.description,
@@ -115,21 +95,19 @@ Page({
         wx.showToast({
           title: '发布成功',
           icon: 'success',
-          duration: 1200
+          duration: 1000
         })
         setTimeout(function(){
           wx.navigateBack({delta: 2})
-        },1200)
-        
+        },1000)
       },
       fail: function() {
-       console.log('upload again fail', res)
+       console.error('upload again fail', res)
       }
     })
   },
 
   showPercent: function() {
-    console.log('show percent')
     var _this = this
     if(this.data.percent > 100) return
     _this.setData({percent: _this.data.percent + 100/(_this.data.durationTime/500)})
@@ -138,16 +116,13 @@ Page({
         _this.showPercent()  
       }, 500)
     }
-    
   },
 
   showTime: function() {
     var _this = this
-    console.log('showTime')
     if(this.data.numberTime * 1000 > this.data.durationTime) return
     _this.setData({numberTime: _this.data.numberTime + 1})
     _this.setData({stringTime: util.NumberToTime(this.data.numberTime)})
-
     if(_this.data.playing) {
       setTimeout(function(){
         _this.showTime()
@@ -155,42 +130,38 @@ Page({
     }
   },
 
-  inputCheck: function(func) {
+  playVoiceCatchTap: function(){
     var _this = this
-    var checkSuccess = false
-    setTimeout(function(){
-      if(_this.data.title == ''){
-        _this.setData({
-          error: true,
-          errorInfo: '标题不能为空',
-          titleFocus: true
-        })
-        return
-         
-      }
-      if(_this.data.description == '') {
+    if(this.data.playing) {
+      this.setData({
+        playing: false,
+      })
+      wx.stopVoice()
+    }
+    else {
+      this.setData({
+        playing: true,
+        percent: 0,
+        numberTime: 0
+      })
+
+      _this.showPercent()
+      _this.showTime()
+
+      wx.playVoice({
+        filePath: app.globalData.tempfillPath,
+        complete: function(res){
           _this.setData({
-            error: true,
-            errorInfo: '描述信息不能为空',
-            descriptionFocus: true
+            playing: false,
+            percent: 100
           })
-        return     
-      }
-
-      _this.setData({error: false, btnText: '上传中', loading: true})
-      func()
-      
-       
-      }, 100)
-
+        }
+      })
+    }
   }
+
 
     
 })
 
-
-// TextArea 失去焦点
-//  
-//
-
-// 
+//因为textarea只能在失去焦点的时候监听其数据，所以 。。。。

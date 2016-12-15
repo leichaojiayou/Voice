@@ -1,13 +1,13 @@
 var util = require('../../utils/util.js')
 var Api = require('../../utils/api.js')
-var app = getApp()
+
 
 Page({
   data: {
     token : '',
     list: [],
     page: 1,
-    per: 6,
+    per: 10,
     done: false
   },
 
@@ -15,22 +15,17 @@ Page({
     var _this = this
     util.getInfo(function(info) {
       typeof info === 'object' ? '' : info = JSON.parse(info)
-      _this.setData({token: info.token});
-      
+      _this.setData({token: info.token});  
       _this.getData();
-      
     })
   },
 
   onPullDownRefresh: function() {
-    console.log('下拉刷新')
     this.setData({page: 1})
     this.getData()
   },
 
   onReachBottom: function() {
-    
-    console.log('上拉刷新')
     if(this.data.token) {
       if(!this.data.done) this.lower()
       else {
@@ -41,11 +36,9 @@ Page({
         })
       }
     }
-
   },
 
   getData: function() {
-    
     var _this = this
     var token = _this.data.token
     var per = _this.data.per
@@ -116,11 +109,9 @@ Page({
         })
       },
       fail: function() {
-        // fail
         console.log('downloadFile fail')
       }
     })
-
     
   }   
 })

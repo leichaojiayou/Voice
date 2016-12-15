@@ -16,10 +16,6 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
-var getCurrentTime =  function() {
-  var d = new Date();
-  return d.getTime()
-}
 
 //接受一个单位是秒的数字，返回字符串
 
@@ -110,7 +106,6 @@ var getInfo = function(callback) {
 
 module.exports = {
   formatTime: formatTime,
-  getCurrentTime: getCurrentTime,
   NumberToTime: NumberToTime,
   getInfo: getInfo
 }

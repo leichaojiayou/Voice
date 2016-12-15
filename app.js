@@ -9,16 +9,7 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    console.log('App onLaunch')
-
   },
-  onShow: function() {
-    console.log('App onShow')
-  },
-  onHide: function() {
-    console.log('App onHide')
-  },
-  
   globalData:{
     tempfillPath: null,
     stringTime: null
