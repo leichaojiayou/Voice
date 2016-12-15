@@ -10,5 +10,16 @@ Page({
         return util.formatTime(new Date(log))
       })
     })
+  },
+  onShow: function() {
+    var animation = wx.createAnimation({
+      duration: 1000,
+      timingFunction: 'linear', 
+    })
+    animation.scale(.5).rotate(10).step()
+    this.setData({
+      animationData: animation.export()
+    })
+    
   }
 })

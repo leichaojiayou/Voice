@@ -14,8 +14,11 @@ Page({
   onLoad: function() {
     var _this = this
     util.getInfo(function(info) {
-      _this.setData({token: JSON.parse(info).token})
-      _this.getData()
+      typeof info === 'object' ? '' : info = JSON.parse(info)
+      _this.setData({token: info.token});
+      
+      _this.getData();
+      
     })
   },
 
@@ -38,10 +41,11 @@ Page({
         })
       }
     }
+
   },
 
   getData: function() {
-
+    
     var _this = this
     var token = _this.data.token
     var per = _this.data.per
@@ -69,7 +73,7 @@ Page({
         wx.stopPullDownRefresh()
         _this.setData({list: _this.data.list.concat(res.data.map(function(item){
           item.duration = util.NumberToTime(Math.floor(item.duration/1000))
-          item.path = 'https://tinyapp.sparklog.com/upload/' + JSON.parse(item.src).filename
+          item.path = 'https://tinyapp.sparklog.com/static/uploads/' + JSON.parse(item.src).filename
           return item
         }))})
         console.log('list:', _this.data.list)
@@ -92,17 +96,31 @@ Page({
     console.log('clicked the voice')
     console.log('the path is :', path)
 
-    wx.playVoice({
-      filePath: path,
+    wx.downloadFile({
+      url: path,
       success: function(res){
-        console.log('paly voice success')
+        // success
+        console.log('downloadFile success')
+        console.log(res.tempFilePath)
+        wx.playVoice({
+          filePath: res.tempFilePath,
+          success: function(res){
+            console.log('paly voice success')
+          },
+          fail: function() {
+            console.log('paly voice fail')
+          },
+          complete: function() {
+            console.log('paly voice complete')
+          }
+        })
       },
       fail: function() {
-        console.log('paly voice fail')
-      },
-      complete: function() {
-        console.log('paly voice complete')
+        // fail
+        console.log('downloadFile fail')
       }
     })
+
+    
   }   
 })
