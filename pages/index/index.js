@@ -111,7 +111,6 @@ Page({
       fail: function() {
         console.log('downloadFile fail')
       }
-    })
-    
+    })   
   }   
 })

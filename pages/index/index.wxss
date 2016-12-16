@@ -23,21 +23,17 @@
 .list-side {
   margin-left: 40rpx;
   width: 100%;
-  
 }
-
 
 .list-title {
   font-size: 14pt;
   margin-bottom: 20rpx;
 }
 
-
-
 .list-voice {  
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: center; 
 }
 
 .list-voice-img {
@@ -47,6 +43,7 @@
     border-radius: 4pt;
     padding: 18rpx 30rpx;
     box-sizing: border-box;
+    border: 1rpx solid rgba(4,4,4,0.08);
 }
 
 .list-voice-img image{
@@ -60,12 +57,10 @@
 }
 
 .list-description {
-    margin-top: 40rpx;
+    margin-bottom: 40rpx;
     font-size: 12pt;
-    color: rgb(53,53,53);
+    color: rgba(53,53,53,0.9);
     line-height: 1.4em;
-
-
 }
 
 .add {

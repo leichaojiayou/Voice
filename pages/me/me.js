@@ -8,6 +8,7 @@ Page({
     list: [],
     page: 1,
     per: 5,
+    done: false,
   },
 
   onLoad: function () {
@@ -19,6 +20,24 @@ Page({
         this.fetchList()
       }
     })
+  },
+
+  onReachBottom: function() {
+    if(this.data.token) {
+      if(!this.data.done) this.lower()
+      else {
+        wx.showToast({
+          title: '没有更多内容',
+          icon: 'success',
+          duration: 600
+        })
+      }
+    }
+  },
+
+  lower() {
+    this.setData({page: this.data.page + 1})
+    this.fetchList()
   },
 
   fetchList: function() {
@@ -41,6 +60,8 @@ Page({
       url: `https://tinyapp.sparklog.com/imaginations/mine?per=${per}&page=${page}&token=${token}`,
       method: 'GET',
       success: function(res){
+        if(res.data.length === 0) _this.setData({done: true})
+        else _this.setData({done: false})
         console.log(res.data)
         _this.setData({list: _this.data.list.concat(res.data.map(function(item){
             item.duration = util.NumberToTime(Math.floor(item.duration/1000))

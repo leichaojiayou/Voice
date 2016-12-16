@@ -2,6 +2,15 @@
 .userinfo {
   border-bottom: 1px solid #eee;
   display: flex;
+  justify-content: space-around;
+  flex-direction:column;
+  background: url('/images/group.png');
+  height: 270rpx;
+}
+
+.userinfo-basic {
+  width: 100%;
+  display: flex;
   align-items: center;
 }
 
@@ -13,30 +22,47 @@
 }
 
 .userinfo-nickname {
-  font-size: 14pt;
+  font-size: 12pt;
+  color: white;
 }
 
-
+.userinfo-imaginations {
+  font-size: 12pt;
+  color: white;
+  margin: 20rpx;
+}
 
 .list {
   width: 100%;
   padding: 40rpx;
   box-sizing: border-box;
   border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: row;
+  background-image: url('/images/line.png');
+  background-repeat:no-repeat;
+  background-position: 8.5%;
 }
 
+.list-delete {
+  padding-right:  40rpx;
+}
 
+.list-delete image{
+  width: 56rpx;
+  height: 56rpx;
+}
 
 .list-title {
   font-size: 16pt;
   margin-bottom: 32rpx;
 }
 
-
 .list-voice {  
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    
 }
 
 
@@ -47,6 +73,7 @@
     border-radius: 4pt;
     padding: 18rpx 30rpx;
     box-sizing: border-box;
+    border: 1rpx solid rgba(4,4,4,0.08);
 }
 
 .list-voice-img image{
