@@ -17,9 +17,7 @@ function formatNumber(n) {
 
 
 //接受一个单位是秒的数字，返回字符串
-
 var NumberToTime = function(num) {
-
   if(typeof num !== 'number') return 'NaN'
   var n = num%60;
 
@@ -30,7 +28,6 @@ var NumberToTime = function(num) {
     return '00:' + num
   }
   else if(num < 600){
-    
     if(n < 10)
       return '0' + Math.floor(num/60) + ':' + '0' + n;
     else
@@ -46,7 +43,6 @@ var NumberToTime = function(num) {
 
 //获取 code
 var fetchCode = function(callback) {
-  console.log('fetchCode')
   wx.login({
     success: function(res){
       console.log('login success')
@@ -64,9 +60,7 @@ var fetchCode = function(callback) {
 
 // 获取token和userInfo
 var fetchInfo = function(callback) {
-  
   fetchCode(function(code) {
-
     wx.getUserInfo({
       success: function(res){
         wx.request({
@@ -96,14 +90,12 @@ var fetchInfo = function(callback) {
 }
 
 var getInfo = function(callback) {
-  
   wx.getStorage({
     key: 'info',
     success: function(res) {
       typeof callback === "function" && callback(res.data)
     },
     fail: function() {
-      console.log(fetchInfo)
       fetchInfo(callback)
     }
   })
