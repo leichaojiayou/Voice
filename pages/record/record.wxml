@@ -1,8 +1,10 @@
 
 <view class="hint">
     <text>录音3-7分钟</text>
-    <image src="/images/graphics.png" mode="scaleToFill"></image>
+    <canvas canvas-id="myCanvas" style="height:300px;width:100%" />
 </view>
+
+
 
 
 

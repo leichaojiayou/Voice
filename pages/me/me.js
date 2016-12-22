@@ -40,6 +40,7 @@ Page({
     this.fetchList()
   },
 
+  //请求个人语音列表
   fetchList: function() {
     var _this = this
     var token = _this.data.token
@@ -62,16 +63,19 @@ Page({
       success: function(res){
         if(res.data.length === 0) _this.setData({done: true})
         else _this.setData({done: false})
-        console.log(res.data)
+        
         _this.setData({list: _this.data.list.concat(res.data.map(function(item){
             item.duration = util.NumberToTime(Math.floor(item.duration/1000))
+            item.path = 'https://tinyapp.sparklog.com/static/uploads/' + JSON.parse(item.src).filename
             return item
           }))
         })
+        console.log('meList:', _this.data.list)
       }
     })
  },
   
+  //删除语音
   deleteHandle: function(event) {
     console.log(event.currentTarget.dataset.id)
     var _this = this
@@ -95,6 +99,19 @@ Page({
             }
           })
         }
+      }
+    })
+  },
+
+  //播放语音
+  palyVoiceHandle: function(event) {
+    const path = event.currentTarget.dataset.path
+    wx.downloadFile({
+      url: path,
+      success: function(res){
+        wx.playVoice({
+          filePath: res.tempFilePath,
+        })
       }
     })
   }

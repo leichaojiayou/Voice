@@ -1,18 +1,26 @@
 <view class="finish">
   
-  <view class="error {{error ? 'error_show' : ''}}">
-    <text>{{errorInfo}}</text>
+  <view class="hasEmptyInput {{error ? 'error_show' : ''}}">
+    <text>{{emptyInputInfo}}</text>
   </view>
 
+  <form bindsubmit="formSubmit">
+    <view class="finish-title">
+      <input name="title" placeholder="标题" focus="{{titleFocus}}" />
+    </view>
 
+    <view class="finish-description">
+      <textarea name="description" placeholder="描述" focus="{{descriptionFocus}}" />
+    </view>
 
-  <view class="finish-title">
-    <input bindinput="titleBindInput" placeholder="标题" focus="{{titleFocus}}" />
-  </view>
+    <!--<button catchtap="uploadCatchTap" type="primary" "></button>-->
+    <button type="primary" formType="submit" loading="{{loading}}">{{btnText}}</button>
+  </form>
 
-  <view class="finish-description">
-    <textarea bindblur="descriptionBindBlur" placeholder="描述" focus="{{descriptionFocus}}" />
-  </view>
+    
+  
+  <button type="primary" bindtap="uploadErrorHandle">测试</button>
+  
 
   <view class="finish-play">
     
@@ -31,5 +39,5 @@
 
   </view>
   
-  <button catchtap="uploadCatchTap" type="primary" loading="{{loading}}">{{btnText}}</button>
+  
 </view>

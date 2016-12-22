@@ -6,7 +6,72 @@ Page({
   data: {
     Recording: false,
     numberTime: 0,
-    stringTime: '00:00'
+    stringTime: '00:00',
+    windowWidth: '',
+    windowHeight: '',
+    paused: true
+  },
+
+  onLoad:function(){
+    //获取设备的宽度和高度信息
+    wx.getSystemInfo({
+      success: (res) => {
+        this.setData({
+          windowWidth: res.windowWidth,
+          windowHeight: res.windowHeight
+        })
+      }
+    })
+  },
+
+  onReady:function(){
+    //设置波纹滚动的动画
+    // const context = wx.createCanvasContext('myCanvas')
+    // const windowWidth = this.data.windowWidth;
+    // const SKY_VELOCITY = 30;
+    // var skyOffset = 0;
+    // var lastTime = 0;
+    // var fps = 0;
+
+    // var draw = () => {
+    //   context.save();
+    //   skyOffset = skyOffset < windowWidth ?
+    //               skyOffset + SKY_VELOCITY/fps : 0;
+    //   context.save();
+    //   context.translate(-skyOffset, 0);
+    //   context.drawImage('/images/graphics.png', 0, 0, windowWidth, 300)
+    //   context.drawImage('/images/graphics.png', windowWidth, 0, windowWidth,300)
+    //   context.restore()
+    //   context.draw()
+    // }
+
+    // var erase = function() {
+    //   context.clearRect(0, 0, windowWidth, 300)
+    // }
+
+    // var calculateFps = function(now) {
+    //   var fps = 1000 / (now - lastTime);
+    //   lastTime = now;
+    //   return fps; 
+    // }
+
+    // var animate = (now) => {
+    //   if (now === undefined) {
+    //       now = +new Date;
+    //   }
+
+    //   fps = calculateFps(now);
+    //   console.log(fps)
+
+    //   if (!this.data.paused) {
+    //     erase();
+    //     draw();
+    //   }
+
+    //   requestAnimationFrame(animate)
+    // }
+    // requestAnimationFrame(animate)
+    // draw()
   },
 
   onShow: function() {
@@ -17,6 +82,8 @@ Page({
   },
 
   bindTapRecord: function() {
+    this.setData({paused: !this.data.paused})
+
     var _this = this    
     if(this.data.Recording === false) {
       //记录开始录音的时间

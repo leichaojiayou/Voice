@@ -92,7 +92,6 @@ Page({
     wx.downloadFile({
       url: path,
       success: function(res){
-        // success
         console.log('downloadFile success')
         console.log(res.tempFilePath)
         wx.playVoice({

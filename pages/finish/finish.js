@@ -1,112 +1,143 @@
 var app = getApp();
 var util = require('../../utils/util.js')
 var Api = require('../../utils/api.js')
+
 Page({
   data: {
     token: '',
     stringTime: '00:00',
-    durationTime: '',    
+    durationTime: '',
+
     numberTime: 0,
     playing: false,
-    title: '',
-    description: '',
     percent: 0,
     btnText: '分享',
-    error: false,
-    errorInfo: '',
+
+    hasEmptyInput: false,
+    emptyInputInfo: '',
     titleFocus: false,
     descriptionFocus: false,
+    title: '',
+    description: ''
   },
 
+  //设置一些必要的信息
   onLoad: function() {
     var info = wx.getStorageSync('info');
-    typeof info === 'object' ? '' : info = JSON.parse(info)
+    //为了兼容 模拟器环境 和 真机环境
+    typeof info === 'object' ? '' : info = JSON.parse(info);
     this.setData({
       token: info.token,
       stringTime: app.globalData.stringTime,
       durationTime: app.globalData.durationTime
     })
   },
-
-  titleBindInput: function(e) {
-    this.setData({title: e.detail.value})
+  
+  //表单提交事件处理
+  formSubmit: function(e) {
+     console.log('form发生了submit事件，携带数据为：', e.detail.value)
+     //表单验证
+     this.inputCheck({
+        title: e.detail.value.title,
+        description: e.detail.value.description,
+        success: () => {
+          //表单验证通过
+          this.setData({hasEmptyInput: false})
+          this.setData({
+            title: e.detail.value.title,
+            description: e.detail.value.description,
+          })
+          this.uploadInit()
+        },
+        fail: (res) => {
+          //表单验证失败
+          if(res.errorType === 'title') {
+            this.setData({titleFocus: true})
+          }
+          if(res.errorType === 'description'){
+            this.setData({descriptionFocus: true})
+          }
+          this.setData({hasEmptyInput: true, emptyInputInfo: res.errorInfo})
+        }
+     })
   },
 
-  //textarea只能在失去焦点的时候监听其数据,这是一个微信的bug,后期会修复！
-  descriptionBindBlur: function(e) {
-    this.setData({description: e.detail.value})
-  },
-
-  uploadCatchTap: function() {
-    this.setData({descriptionFocus: false})
-    this.inputCheck({
-      title: this.data.title,
-      description: this.data.description,
-      success: () => {
-        this.setData({error: false})
-        this.uploadInit()
-      },
-      fail: (res) => {
-        this.setData({error: true, errorInfo: res})
-      }
-    })
-  },
-
+  //验证表单函数
   inputCheck: function(obj) {
     if(obj.title === '')
-      obj.fail('标题不能为空')
+      obj.fail({errorType: 'title', errorInfo: '标题不能为空'})
     else if(obj.description === '')
-      obj.fail('描述不能为空')
+      obj.fail({errorType: 'description', errorInfo: '描述不能为空'})
     else
       obj.success()
   },
 
-  uploadInit: function() {
-    var _this = this
-    var apiUrl = Api.upload + '?token=' + this.data.token 
-    wx.uploadFile({
-      url: apiUrl,
-      filePath: app.globalData.tempfillPath,
-      name:'imagination',
-      success: function(res){
-        _this.uploadAgain(res.data)
-      },
-      fail: function(res) {
-        console.error('upload fail', res)
+  //发生上传错误时的函数
+  uploadErrorHandle: function(title, content) {
+    wx.showModal({
+      title: 'title',
+      content: 'content',
+      confirmText: '回到首页',
+      showCancel: false,
+      success: function(res) {
+        if(res.confirm) {
+          wx.switchTab({url: '/pages/index/index'})
+        }
       }
     })
   },
 
-  uploadAgain: function(dataJson) {
-    var _this = this
+  //第一次上传，上传语音文件
+  uploadInit: function() {
+    var apiUrl = Api.upload + '?token=' + this.data.token 
+    this.setData({loading: true, btnText: '上传中'})
+    wx.uploadFile({
+      url: apiUrl,
+      filePath: app.globalData.tempfillPath,
+      name:'imagination',
+      success: (res) => {
+        this.uploadAgain(res.data)
+      },
+      fail: (res) => {
+        console.error('上传语音文件发生错误：', res)
+        //这里需要添加处理函数
+        this.uploadErrorHandle('上传失败','服务器发生未知错误')
+      }
+    })
+  },
+
+  //第二次上传，上传表单信息
+  uploadAgain: function(responseData) {
+
     wx.request({
-      url: 'https://tinyApp.sparklog.com/imagination?token=' + _this.data.token,
+      url: 'https://tinyApp.sparklog.com/imagination?token=' + this.data.token,
       data: {
-        title: _this.data.title,
-        description: _this.data.description,
-        src: dataJson,
+        title: this.data.title,
+        description: this.data.description,
+        src: responseData,
         duration: app.globalData.durationTime
       },
       method: 'POST', 
-      success: function(res){
-        console.log('upload again sucess', res)
-        _this.setData({btnText: '上传成功', loading: false})
-        //提示框
+      success: (res) => {        
+        this.setData({btnText: '上传成功', loading: false})
+
         wx.showToast({
           title: '发布成功',
           icon: 'success',
           duration: 1000
         })
         setTimeout(function(){
-          wx.navigateBack({delta: 2})
+          wx.switchTab({url: '/pages/index/index'})
         },1000)
       },
-      fail: function() {
-       console.error('upload again fail', res)
+      fail: function(res) {
+        console.error('上传表单信息时发生错误：', res)
+        this.uploadErrorHandle('上传失败','服务器发生未知错误')
       }
     })
   },
 
+  //播放进度函数
   showPercent: function() {
     var _this = this
     if(this.data.percent > 100) return
@@ -118,6 +149,7 @@ Page({
     }
   },
 
+  //时间进度函数
   showTime: function() {
     var _this = this
     if(this.data.numberTime * 1000 > this.data.durationTime) return
@@ -130,6 +162,7 @@ Page({
     }
   },
 
+  //语音播放事件处理
   playVoiceCatchTap: function(){
     var _this = this
     if(this.data.playing) {

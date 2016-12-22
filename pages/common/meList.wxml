@@ -14,7 +14,7 @@
       <text>{{item.title}}</text>
     </view>
     <view class="list-voice">
-        <view class="list-voice-img" >
+        <view class="list-voice-img" data-path="{{item.path}}" catchtap="palyVoiceHandle">
           <image src="/images/voice.png"></image>
         </view>
         <view class="list-voice-time">
