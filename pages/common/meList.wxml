@@ -14,8 +14,8 @@
       <text>{{item.title}}</text>
     </view>
     <view class="list-voice">
-        <view class="list-voice-img" data-path="{{item.path}}" catchtap="palyVoiceHandle">
-          <image src="/images/voice.png"></image>
+        <view class="list-voice-box" catchtap="palyVoice" data-path="{{item.path}}" data-index="{{index}}">
+          <view class="list-voice-img {{playing && itemId == index ? 'list-voice-img-shake' : ''}}"></view>
         </view>
         <view class="list-voice-time">
           <text>{{item.duration}}</text>

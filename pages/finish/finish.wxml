@@ -1,43 +1,44 @@
 <view class="finish">
   
-  <view class="hasEmptyInput {{error ? 'error_show' : ''}}">
+  <view class="error {{hasEmptyInput ? 'error_show' : ''}}">
     <text>{{emptyInputInfo}}</text>
   </view>
 
   <form bindsubmit="formSubmit">
+    <!-- 标题-->
     <view class="finish-title">
       <input name="title" placeholder="标题" focus="{{titleFocus}}" />
     </view>
 
+     <!-- 描述-->
     <view class="finish-description">
       <textarea name="description" placeholder="描述" focus="{{descriptionFocus}}" />
     </view>
 
-    <!--<button catchtap="uploadCatchTap" type="primary" "></button>-->
-    <button type="primary" formType="submit" loading="{{loading}}">{{btnText}}</button>
-  </form>
-
-    
-  
-  <button type="primary" bindtap="uploadErrorHandle">测试</button>
-  
-
-  <view class="finish-play">
-    
+    <!-- 播放控制-->
+    <view class="finish-play">    
     <view class="finish-play-btn"
       catchtap = "playVoiceCatchTap">
       <image src="{{playing ? '/images/pause.png' : '/images/play.png' }}"></image>
     </view>
-
     <view class="finish-play-progress">
       <progress percent="{{percent}}" stroke-width="6" />
     </view>
-
     <view class="finish-play-time">
       <text>{{stringTime}}</text>
     </view>
-
   </view>
+
+    <!-- 上传按钮 -->
+    <button type="primary" formType="submit" loading="{{loading}}" catchtap="uploadCatchTap">{{btnText}}</button>
+  </form>
+
+    
+  
+  
+  
+
+  
   
   
 </view>

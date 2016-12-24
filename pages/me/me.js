@@ -9,6 +9,7 @@ Page({
     page: 1,
     per: 5,
     done: false,
+    playing: false
   },
 
   onLoad: function () {
@@ -104,16 +105,30 @@ Page({
   },
 
   //播放语音
-  palyVoiceHandle: function(event) {
+    palyVoice: function(event){
+
     const path = event.currentTarget.dataset.path
+    this.setData({itemId: event.currentTarget.dataset.index})
+    this.setData({playing: true})
     wx.downloadFile({
       url: path,
-      success: function(res){
+      success: (res) => {
         wx.playVoice({
           filePath: res.tempFilePath,
+          complete: (res) => {
+            this.setData({playing: false})
+          }
         })
+      },
+      fail: (res) => {
+        console.error('downloadFile fail')
+        this.setData({playing: false})
       }
-    })
+    })   
+  },
+
+  bindscanCode: function() {
+    wx.showNavigationBarLoading()
   }
 
 })

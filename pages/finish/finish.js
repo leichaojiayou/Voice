@@ -75,8 +75,8 @@ Page({
   //发生上传错误时的函数
   uploadErrorHandle: function(title, content) {
     wx.showModal({
-      title: 'title',
-      content: 'content',
+      title: title,
+      content: content,
       confirmText: '回到首页',
       showCancel: false,
       success: function(res) {

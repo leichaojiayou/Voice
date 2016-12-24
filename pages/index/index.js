@@ -8,7 +8,8 @@ Page({
     list: [],
     page: 1,
     per: 10,
-    done: false
+    done: false,
+    playing: false,
   },
 
   onLoad: function() {
@@ -84,31 +85,23 @@ Page({
   },
 
   palyVoice: function(event){
-    console.log(event.target.dataset)
-    var path = event.target.dataset.path
-    console.log('clicked the voice')
-    console.log('the path is :', path)
 
+    const path = event.currentTarget.dataset.path
+    this.setData({itemId: event.currentTarget.dataset.index})
+    this.setData({playing: true})
     wx.downloadFile({
       url: path,
-      success: function(res){
-        console.log('downloadFile success')
-        console.log(res.tempFilePath)
+      success: (res) => {
         wx.playVoice({
           filePath: res.tempFilePath,
-          success: function(res){
-            console.log('paly voice success')
-          },
-          fail: function() {
-            console.log('paly voice fail')
-          },
-          complete: function() {
-            console.log('paly voice complete')
+          complete: (res) => {
+            this.setData({playing: false})
           }
         })
       },
-      fail: function() {
-        console.log('downloadFile fail')
+      fail: (res) => {
+        console.error('downloadFile fail')
+        this.setData({playing: false})
       }
     })   
   }   
