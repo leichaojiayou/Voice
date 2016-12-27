@@ -10,15 +10,29 @@ Page({
     per: 10,
     done: false,
     playing: false,
+    scrollTop: 0,
+    windowHeight: 0,
+    addButtonisShow: true
   },
 
   onLoad: function() {
-    var _this = this
-    util.getInfo(function(info) {
+
+    util.getInfo((info) => {
       typeof info === 'object' ? '' : info = JSON.parse(info)
-      _this.setData({token: info.token});  
-      _this.getData();
+      this.setData({token: info.token});  
+      
     })
+
+    wx.getSystemInfo({
+      success: (res) => {
+        this.setData({windowHeight: res.windowHeight})
+      }
+    })
+  },
+
+  //将getData放在onShow中是为了，用户在上传后回到首页时会自动刷新
+  onShow: function() {
+    this.getData();
   },
 
   onPullDownRefresh: function() {
@@ -36,6 +50,15 @@ Page({
           duration: 600
         })
       }
+    }
+  },
+
+  bindscroll: function(e) {
+    if(e.detail.scrollTop < 20) {
+      this.setData({addButtonisShow: true})
+    }
+    else {
+      this.setData({addButtonisShow: false})
     }
   },
 
@@ -74,6 +97,7 @@ Page({
       },
       fail: function() {
         console.error('获取imaginations失败')
+        wx.clearStorage()
       }
     })
 

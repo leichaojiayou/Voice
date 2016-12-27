@@ -1,34 +1,36 @@
 <template name="list">
+  
+<scroll-view scroll-y="true" style="height:{{windowHeight}}px"  bindscroll="bindscroll" bindscrolltolower="lower" scroll-top="{{scrollTop}}">
   <block wx:for="{{list}}" wx:key="{{index}}">
-  <scroll-view scroll-y="true" style="height:100%"  bindscrolltolower="lower" scroll-top="{{scrollTop}}">
-  <view class="list">
-
-    <view class="list-avatar">
-      <image src="{{item.userInfo.wxInfo.avatarUrl}}" />
-    </view>
-
-    <view class="list-side">
-
-      <view class="list-title">
-        <text>{{item.title}}</text>
+    <view class="list">
+      <view class="list-avatar">
+        <image src="{{item.userInfo.wxInfo.avatarUrl}}" />
       </view>
 
-      <view class="list-description">
-        {{item.description}}
-      </view>
+      <view class="list-side">
 
-      <view class="list-voice"  >
-        <view class="list-voice-box" catchtap="palyVoice" data-path="{{item.path}}" data-index="{{index}}">
-          <view class="list-voice-img {{playing && itemId == index ? 'list-voice-img-shake' : ''}}"></view>
+        <view class="list-title">
+          <text>{{item.title}}</text>
         </view>
-        <view class="list-voice-time">
-          <text>{{item.duration}}</text>
+
+        <view class="list-description">
+          {{item.description}}
         </view>
+
+        <view class="list-voice"  >
+          <view class="list-voice-box" catchtap="palyVoice" data-path="{{item.path}}" data-index="{{index}}">
+            <view class="list-voice-img {{playing && itemId == index ? 'list-voice-img-shake' : ''}}"></view>
+          </view>
+          <view class="list-voice-time">
+            <text>{{item.duration}}</text>
+          </view>
+        </view>
+
       </view>
 
     </view>
-
-  </view>
-  </scroll-view>
   </block>
+</scroll-view>
+
+  
 </template>

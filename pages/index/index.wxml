@@ -1,10 +1,11 @@
 <import src="../common/list.wxml"/>
 
-<template is="list" data="{{ list , playing, itemId}}"/>
+<template is="list" data="{{ list , playing, itemId, scrollTop, windowHeight}}"/>
 
-<navigator url="/pages/record/record">
-  <view class="add">
-    <image src="/images/add.png" mode="scaleToFill"></image>
-  </view>
-</navigator>
-
+<block wx:if="{{addButtonisShow}}">
+  <navigator url="/pages/record/record">
+    <view class="add">
+      <image src="/images/add.png" mode="scaleToFill"></image>
+    </view>
+  </navigator>
+</block>
