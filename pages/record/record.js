@@ -14,6 +14,7 @@ Page({
 
   onLoad:function(){
     //获取设备的宽度和高度信息
+    console.log('onLoad')
     wx.getSystemInfo({
       success: (res) => {
         this.setData({
@@ -25,6 +26,7 @@ Page({
   },
 
   onReady:function(){
+    console.log('onReady')
     //设置波纹滚动的动画
     // const context = wx.createCanvasContext('myCanvas')
     // const windowWidth = this.data.windowWidth;
@@ -75,6 +77,7 @@ Page({
   },
 
   onShow: function() {
+    console.log('onShow')
     this.setData({
       stringTime: '00:00',
       numberTime: 0,
@@ -88,35 +91,34 @@ Page({
     
     if(this.data.Recording === false) {
       
+      //如果自动弹出 权限窗口窗口 该怎么办？可跟生命周期相关联。
       this.setData({Recording: true})
       this.showTime()
       startTime = new Date().getTime()
 
-      // wx.startRecord({
-      //   success: (res) => {
-      //     //成功发布之后，就已经录制完成才调用
-
-          
-      //     app.globalData.tempfillPath = res.tempFilePath
-      //   },
-      //   fail: function(res) {
-      //     console.log('失败')
-      //     wx.switchTab({url: '/pages/index/index'})
-      //   }
-      // })
+      wx.startRecord({
+        success: (res) => {
+          //成功发布之后，就已经录制完成才调用
+          app.globalData.tempfillPath = res.tempFilePath
+        },
+        fail: function(res) {
+          console.log('失败')
+          wx.switchTab({url: '/pages/index/index'})
+        }
+      })
     }
     else {
 
-      // wx.stopRecord()
+      wx.stopRecord()
       // 记录停止录音的时间
 
       endTime = new Date().getTime()
       app.globalData.durationTime = endTime - startTime
       app.globalData.stringTime = _this.data.stringTime
       this.setData({ Recording: false})
-      // wx.navigateTo({
-      //   url: '/pages/finish/finish',
-      // })
+      wx.navigateTo({
+        url: '/pages/finish/finish',
+      })
     }
   },
 
@@ -131,6 +133,9 @@ Page({
         _this.showTime()
       }, 1000)
     }
+  },
+  onHide: function() {
+    console.log('onHide')
   }
 
 

@@ -91,17 +91,18 @@ Page({
   uploadInit: function() {
     var apiUrl = Api.upload + '?token=' + this.data.token 
     this.setData({loading: true, btnText: '上传中'})
+    var _this = this
     wx.uploadFile({
       url: apiUrl,
       filePath: app.globalData.tempfillPath,
       name:'imagination',
       success: (res) => {
-        this.uploadAgain(res.data)
+        _this.uploadAgain(res.data)
       },
       fail: (res) => {
         console.error('上传语音文件发生错误：', res)
         //这里需要添加处理函数
-        this.uploadErrorHandle('上传失败','服务器发生未知错误')
+        _this.uploadErrorHandle('上传失败','服务器发生未知错误')
       }
     })
   },
