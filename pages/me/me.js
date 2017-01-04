@@ -7,7 +7,7 @@ Page({
     userInfo: '',
     list: [],
     page: 1,
-    per: 5,
+    per: 20,
     done: false,
     playing: false
   },

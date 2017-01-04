@@ -1,7 +1,9 @@
 
 <view class="hint">
+    
+    <!--<canvas canvas-id="myCanvas" style="height:300px;width:100%" />-->
     <text>录音3-7分钟</text>
-    <canvas canvas-id="myCanvas" style="height:300px;width:100%" />
+    
 </view>
 
 
@@ -13,8 +15,10 @@
   <view class="bottom-box-time">
     <text>{{stringTime}}</text>
   </view>
-  <view  bindtap="bindTapRecord" class="bottom-box-outer-btn">
-    <view  class="bottom-box-btn {{Recording ? 'bottom-box-btn-recording' : ''}}"></view>
+  <view  bindtap="bindTapRecord" class="bottom-box-outer-btn {{Recording ? 'bottom-box-outer-btn-recording' : ''}}">
+    <view class="bottom-box-meddia-btn {{Recording ? 'bottom-box-btn-meddia-recording' : ''}}">
+      <view  class="bottom-box-btn {{Recording ? 'bottom-box-btn-recording' : ''}}"></view>
+    </view>
   </view>
 </view>
 

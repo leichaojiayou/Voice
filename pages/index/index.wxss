@@ -4,7 +4,7 @@
   box-sizing: border-box;
   
   display: flex;
-  border-bottom: 1px solid #eee;
+  /*border-bottom: 1px solid #eee;*/
 }
 
 .list-avatar {
@@ -23,6 +23,10 @@
 .list-side {
   margin-left: 40rpx;
   width: 100%;
+  border: 1px solid rgba(0,0,0, 0.50);
+  border-radius: 35rpx;
+  /*border-top-left-radius: 20%;*/
+  padding: 20rpx;
 }
 
 .list-title {

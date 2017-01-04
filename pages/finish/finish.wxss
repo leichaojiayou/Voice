@@ -52,7 +52,7 @@
 
 .finish button{
   position: relative;
-  bottom: -100rpx;
+  bottom: -60rpx;
   color: #ffffff;
 }
 

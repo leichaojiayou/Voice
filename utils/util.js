@@ -73,6 +73,7 @@ var fetchInfo = function(callback) {
           },
           method: 'GET',
           success: function(res){
+            console.log(res)
             typeof callback == "function" && callback(res.data)
             wx.setStorageSync('info', JSON.stringify(res.data))
           },

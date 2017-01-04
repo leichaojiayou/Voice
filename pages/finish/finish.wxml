@@ -30,7 +30,7 @@
   </view>
 
     <!-- 上传按钮 -->
-    <button type="primary" formType="submit" loading="{{loading}}" catchtap="uploadCatchTap">{{btnText}}</button>
+    <button type="primary" formType="submit" loading="{{loading}}" >{{btnText}}</button>
   </form>
 
     

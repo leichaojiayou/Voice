@@ -1,8 +1,8 @@
 {
   "pages":[
-    
-    "pages/index/index",
     "pages/record/record",
+    "pages/index/index",
+    
     "pages/finish/finish",
     "pages/me/me",
     "pages/logs/logs"
@@ -30,4 +30,5 @@
       "selectedIconPath": "images/meHL.png"
     }]
   }
+
 }

@@ -4,7 +4,7 @@ var Api = require('../../utils/api.js')
 
 Page({
   data: {
-    token : '',
+    token: '',
     list: [],
     page: 1,
     per: 10,
@@ -15,34 +15,36 @@ Page({
     addButtonisShow: true
   },
 
-  onLoad: function() {
+  onLoad: function () {
 
     util.getInfo((info) => {
       typeof info === 'object' ? '' : info = JSON.parse(info)
-      this.setData({token: info.token});  
-      
+      this.setData({ token: info.token });
+      this.getData();
     })
 
     wx.getSystemInfo({
       success: (res) => {
-        this.setData({windowHeight: res.windowHeight})
+        this.setData({ windowHeight: res.windowHeight })
       }
     })
   },
 
   //将getData放在onShow中是为了，用户在上传后回到首页时会自动刷新
-  onShow: function() {
-    this.getData();
+  onShow: function () {
+    // if(this.data.token) {
+    //   this.getData();
+    // }
   },
 
-  onPullDownRefresh: function() {
-    this.setData({page: 1})
+  onPullDownRefresh: function () {
+    this.setData({ page: 1 })
     this.getData()
   },
 
-  onReachBottom: function() {
-    if(this.data.token) {
-      if(!this.data.done) this.lower()
+  onReachBottom: function () {
+    if (this.data.token) {
+      if (!this.data.done) this.lower()
       else {
         wx.showToast({
           title: '没有更多内容',
@@ -53,16 +55,16 @@ Page({
     }
   },
 
-  bindscroll: function(e) {
-    if(e.detail.scrollTop < 20) {
-      this.setData({addButtonisShow: true})
+  bindscroll: function (e) {
+    if (e.detail.scrollTop < 20) {
+      this.setData({ addButtonisShow: true })
     }
     else {
-      this.setData({addButtonisShow: false})
+      this.setData({ addButtonisShow: false })
     }
   },
 
-  getData: function() {
+  getData: function () {
     var _this = this
     var token = _this.data.token
     var per = _this.data.per
@@ -75,58 +77,76 @@ Page({
       duration: 500
     })
 
-    if(page === 1) {
+    if (page === 1) {
       _this.setData({ list: [] });
     }
 
     wx.request({
       url: apiUrl,
       method: 'GET',
-      success: function(res){
+      success: function (res) {
+        if(res.data.name && res.data.name == 'TokenExpiredError') {
+          wx.clearStorage({
+            key: 'info',
+            success: function(res){
+              // success
+              console.log('clear success')
+            },
+            fail: function() {
+              // fail
+            },
+            complete: function() {
+              // complete
+            }
+          })
+        }
         // success
         console.log('获取imaginations成功：', res)
-        if(res.data.length === 0) _this.setData({done: true})
-        else _this.setData({done: false})
+        if (res.data.length === 0) _this.setData({ done: true })
+        else _this.setData({ done: false })
         wx.stopPullDownRefresh()
-        _this.setData({list: _this.data.list.concat(res.data.map(function(item){
-          item.duration = util.NumberToTime(Math.floor(item.duration/1000))
-          item.path = 'https://tinyapp.sparklog.com/static/uploads/' + JSON.parse(item.src).filename
-          return item
-        }))})
+        _this.setData({
+          list: _this.data.list.concat(res.data.map(function (item) {
+            item.duration = util.NumberToTime(Math.floor(item.duration / 1000))
+            item.path = 'https://tinyapp.sparklog.com/static/uploads/' + JSON.parse(item.src).filename
+            return item
+          }))
+        })
         console.log('list:', _this.data.list)
       },
-      fail: function() {
-        console.error('获取imaginations失败')
-        wx.clearStorage()
+      complect: function () {
+        
+        
       }
     })
 
   },
 
-  lower: function() {
-    this.setData({page: this.data.page + 1})
+  lower: function () {
+    this.setData({ page: this.data.page + 1 })
     this.getData()
   },
 
-  palyVoice: function(event){
+  palyVoice: function (event) {
 
     const path = event.currentTarget.dataset.path
-    this.setData({itemId: event.currentTarget.dataset.index})
-    this.setData({playing: true})
+    this.setData({ itemId: event.currentTarget.dataset.index })
+    console.log(path)
+    this.setData({ playing: true })
     wx.downloadFile({
       url: path,
       success: (res) => {
         wx.playVoice({
           filePath: res.tempFilePath,
           complete: (res) => {
-            this.setData({playing: false})
+            this.setData({ playing: false })
           }
         })
       },
       fail: (res) => {
         console.error('downloadFile fail')
-        this.setData({playing: false})
+        this.setData({ playing: false })
       }
-    })   
-  }   
+    })
+  }
 })

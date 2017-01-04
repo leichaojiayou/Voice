@@ -36,7 +36,7 @@
   width: 100%;
   padding: 40rpx;
   box-sizing: border-box;
-  border-bottom: 1px solid #eee;
+  /*border-bottom: 1px solid #eee;*/
   display: flex;
   flex-direction: row;
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAACaCAYAAABsQfI0AAAAAXNSR0IArs4c6QAAADNJREFUOBFjvHjxogUDA4M0EJ9kAhJwMMphYBgNg9EwAGWI0XQwGgaj6QBSNYzmhcGdFwCCSgTDqodhAwAAAABJRU5ErkJggg==');

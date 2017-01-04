@@ -168,6 +168,8 @@ Page({
     if(this.data.playing) {
       this.setData({
         playing: false,
+        percent: 0,
+        numberTime: 0
       })
       wx.stopVoice()
     }

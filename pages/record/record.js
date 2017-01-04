@@ -82,33 +82,41 @@ Page({
   },
 
   bindTapRecord: function() {
-    this.setData({paused: !this.data.paused})
+    // this.setData({paused: !this.data.paused})
 
     var _this = this    
+    
     if(this.data.Recording === false) {
-      //记录开始录音的时间
-      startTime = new Date().getTime()
+      
       this.setData({Recording: true})
       this.showTime()
-      wx.startRecord({
-        success: function(res){
-          app.globalData.tempfillPath = res.tempFilePath
-        },
-        fail: function(res) {
-          console.error('something wrong in startRecord: ', res)
-        }
-      })
+      startTime = new Date().getTime()
+
+      // wx.startRecord({
+      //   success: (res) => {
+      //     //成功发布之后，就已经录制完成才调用
+
+          
+      //     app.globalData.tempfillPath = res.tempFilePath
+      //   },
+      //   fail: function(res) {
+      //     console.log('失败')
+      //     wx.switchTab({url: '/pages/index/index'})
+      //   }
+      // })
     }
     else {
-      wx.stopRecord()
+
+      // wx.stopRecord()
       // 记录停止录音的时间
+
       endTime = new Date().getTime()
       app.globalData.durationTime = endTime - startTime
       app.globalData.stringTime = _this.data.stringTime
       this.setData({ Recording: false})
-      wx.navigateTo({
-        url: '/pages/finish/finish',
-      })
+      // wx.navigateTo({
+      //   url: '/pages/finish/finish',
+      // })
     }
   },
 
@@ -124,6 +132,8 @@ Page({
       }, 1000)
     }
   }
+
+
 
 })
 
