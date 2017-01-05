@@ -32,9 +32,9 @@ Page({
 
   //将getData放在onShow中是为了，用户在上传后回到首页时会自动刷新
   onShow: function () {
-    // if(this.data.token) {
-    //   this.getData();
-    // }
+    if(this.data.token) {
+      this.getData();
+    }
   },
 
   onPullDownRefresh: function () {
