@@ -15,10 +15,15 @@
   <view class="bottom-box-time">
     <text>{{stringTime}}</text>
   </view>
-  <view  bindtap="bindTapRecord" class="bottom-box-outer-btn {{Recording ? 'bottom-box-outer-btn-recording' : ''}}">
+
+  <view  class="bottom-box-outer-btn {{Recording ? 'bottom-box-outer-btn-recording' : ''}}">
     <view class="bottom-box-meddia-btn {{Recording ? 'bottom-box-btn-meddia-recording' : ''}}">
-      <view  class="bottom-box-btn {{Recording ? 'bottom-box-btn-recording' : ''}}"></view>
+      <view bindtap="bindTapRecord" class="bottom-box-btn {{Recording ? 'bottom-box-btn-recording' : ''}}"></view>
     </view>
+  </view>
+
+  <view class="bottom-box-text">
+    <text>{{Recording ? '轻按结束录音' : '轻按一下录音'}}</text>
   </view>
 </view>
 

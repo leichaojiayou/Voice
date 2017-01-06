@@ -9,7 +9,7 @@ Page({
     stringTime: '00:00',
     windowWidth: '',
     windowHeight: '',
-    paused: true
+    paused: true,
   },
 
   onLoad:function(){
@@ -80,7 +80,8 @@ Page({
     
     this.setData({
       stringTime: '00:00',
-      numberTime: 0
+      numberTime: 0,
+      hintText: '轻按一下录音'
     })
   },
 
@@ -92,9 +93,7 @@ Page({
     if(this.data.Recording === false) {
       
       //如果自动弹出 权限窗口窗口 该怎么办？
-      
-      
-      this.setData({Recording: true})
+      this.setData({Recording: true})      
       startTime = new Date().getTime()
       this.showTime()
       wx.startRecord({

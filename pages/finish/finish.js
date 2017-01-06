@@ -25,6 +25,7 @@ Page({
   onLoad: function() {
     var info = wx.getStorageSync('info');
     //为了兼容 模拟器环境 和 真机环境
+    //在真机info为string
     typeof info === 'object' ? '' : info = JSON.parse(info);
     this.setData({
       token: info.token,
@@ -32,22 +33,31 @@ Page({
       durationTime: app.globalData.durationTime
     })
   },
+
+  bindInputOnChange(e) {
+    this.setData({title: e.detail.value})
+  },
+
+  bindTextareaOnChange(e) {
+    this.setData({description: e.detail.value})
+  },
+
   
   //表单提交事件处理
-  formSubmit: function(e) {
-     console.log('form发生了submit事件，携带数据为：', e.detail.value)
+  bindSubmitBTN: function(e) {
+  
      //表单验证
+     console.log('开始表单验证')
      this.inputCheck({
-        title: e.detail.value.title,
-        description: e.detail.value.description,
+        title: this.data.title,
+        description: this.data.description,
         success: () => {
           //表单验证通过
-          this.setData({hasEmptyInput: false})
-          this.setData({
-            title: e.detail.value.title,
-            description: e.detail.value.description,
-          })
+          this.setData({ hasEmptyInput: false })
+          console.log('验证通过')
+          console.log('开始第一次上传')
           this.uploadInit()
+          
         },
         fail: (res) => {
           //表单验证失败
@@ -64,9 +74,9 @@ Page({
 
   //验证表单函数
   inputCheck: function(obj) {
-    if(obj.title === '')
+    if(obj.title == '')
       obj.fail({errorType: 'title', errorInfo: '标题不能为空'})
-    else if(obj.description === '')
+    else if(obj.description == '')
       obj.fail({errorType: 'description', errorInfo: '描述不能为空'})
     else
       obj.success()
@@ -89,6 +99,7 @@ Page({
 
   //第一次上传，上传语音文件
   uploadInit: function() {
+    console.log('进入第一次上传内部')
     var apiUrl = Api.upload + '?token=' + this.data.token 
     this.setData({loading: true, btnText: '上传中'})
     var _this = this
@@ -97,6 +108,7 @@ Page({
       filePath: app.globalData.tempfillPath,
       name:'imagination',
       success: (res) => {
+        console.log('第一次上传成功成功，开始进行第二次上传')
         _this.uploadAgain(res.data)
       },
       fail: (res) => {
@@ -109,19 +121,20 @@ Page({
 
   //第二次上传，上传表单信息
   uploadAgain: function(responseData) {
-
+    console.log('进入第二次上传')
+    var _this = this;
     wx.request({
-      url: 'https://tinyApp.sparklog.com/imagination?token=' + this.data.token,
+      url: 'https://tinyApp.sparklog.com/imagination?token=' + _this.data.token,
       data: {
-        title: this.data.title,
-        description: this.data.description,
+        title: _this.data.title,
+        description: _this.data.description,
         src: responseData,
         duration: app.globalData.durationTime
       },
       method: 'POST', 
-      success: (res) => {        
-        this.setData({btnText: '上传成功', loading: false})
-
+      success: (res) => {   
+        console.log('第二次上传成功')     
+        _this.setData({btnText: '上传成功', loading: false})
         wx.showToast({
           title: '发布成功',
           icon: 'success',
@@ -131,9 +144,9 @@ Page({
           wx.switchTab({url: '/pages/index/index'})
         },1000)
       },
-      fail: function(res) {
+      fail: (res) => {
         console.error('上传表单信息时发生错误：', res)
-        this.uploadErrorHandle('上传失败','服务器发生未知错误')
+        _this.uploadErrorHandle('上传失败','服务器发生未知错误')
       }
     })
   },

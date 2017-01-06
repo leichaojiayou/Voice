@@ -31,10 +31,11 @@ Page({
   },
 
   //将getData放在onShow中是为了，用户在上传后回到首页时会自动刷新
+  //但目前通过switchtarbar跳转回来，还不会触发onShow，因此注视
   onShow: function () {
-    if(this.data.token) {
-      this.getData();
-    }
+    // if(this.data.token) {
+    //   this.getData();
+    // }
   },
 
   onPullDownRefresh: function () {
@@ -85,18 +86,11 @@ Page({
       url: apiUrl,
       method: 'GET',
       success: function (res) {
-        if(res.data.name && res.data.name == 'TokenExpiredError') {
+        if(res.statusCode != 200) {
           wx.clearStorage({
             key: 'info',
             success: function(res){
-              // success
               console.log('clear success')
-            },
-            fail: function() {
-              // fail
-            },
-            complete: function() {
-              // complete
             }
           })
         }
@@ -113,10 +107,6 @@ Page({
           }))
         })
         console.log('list:', _this.data.list)
-      },
-      complect: function () {
-        
-        
       }
     })
 

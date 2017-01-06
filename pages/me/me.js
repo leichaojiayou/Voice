@@ -22,6 +22,10 @@ Page({
       }
     })
   },
+  //要么支持onShow，要么支持下拉刷新。
+  onShow: function() {
+    this.fetchList()
+  },
 
   onReachBottom: function() {
     if(this.data.token) {
@@ -78,8 +82,9 @@ Page({
   
   //删除语音
   deleteHandle: function(event) {
-    console.log(event.currentTarget.dataset.id)
-    var _this = this
+    console.log('id: ',event.currentTarget.dataset.id)
+    var id = event.currentTarget.dataset.id;
+    var token = this.data.token
     wx.showModal({
       title: '删除',
       content: '确定删除这个资源？',
@@ -87,7 +92,7 @@ Page({
         if(res.confirm) {
           console.log('用户点击确定')
           wx.request({
-            url: 'https://tinyapp.sparklog.com/imagination/'+ event.currentTarget.dataset.id+'?token='+_this.data.token,
+            url: 'https://tinyapp.sparklog.com/imagination/'+ id+'?token='+token,
             method: 'DELETE',
             success: function(res){
               console.log('删除成功')
@@ -125,10 +130,6 @@ Page({
         this.setData({playing: false})
       }
     })   
-  },
-
-  bindscanCode: function() {
-    wx.showNavigationBarLoading()
   }
 
 })
