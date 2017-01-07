@@ -27,6 +27,7 @@ Page({
     //为了兼容 模拟器环境 和 真机环境
     //在真机info为string
     typeof info === 'object' ? '' : info = JSON.parse(info);
+    console.log(info)
     this.setData({
       token: info.token,
       stringTime: app.globalData.stringTime,
@@ -109,6 +110,7 @@ Page({
       name:'imagination',
       success: (res) => {
         console.log('第一次上传成功成功，开始进行第二次上传')
+        console.log(res)
         _this.uploadAgain(res.data)
       },
       fail: (res) => {
@@ -124,7 +126,7 @@ Page({
     console.log('进入第二次上传')
     var _this = this;
     wx.request({
-      url: 'https://tinyApp.sparklog.com/imagination?token=' + _this.data.token,
+      url: Api.host + '/imagination?token=' + _this.data.token,
       data: {
         title: _this.data.title,
         description: _this.data.description,
@@ -133,7 +135,8 @@ Page({
       },
       method: 'POST', 
       success: (res) => {   
-        console.log('第二次上传成功')     
+        console.log('第二次上传成功')
+        console.log('成功返回数据：',res)
         _this.setData({btnText: '上传成功', loading: false})
         wx.showToast({
           title: '发布成功',

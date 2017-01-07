@@ -6,8 +6,9 @@ Page({
     token: '',
     userInfo: '',
     list: [],
+    count: 0,
     page: 1,
-    per: 20,
+    per: 5,
     done: false,
     playing: false
   },
@@ -16,8 +17,9 @@ Page({
     wx.getStorage({
       key: 'info',
       success: (res) => {
-        this.setData({userInfo: JSON.parse(res.data).wxInfo})
         this.setData({token: JSON.parse(res.data).token})
+        this.setData({userInfo: JSON.parse(res.data).wxInfo})
+        
         this.fetchList()
       }
     })
@@ -48,9 +50,9 @@ Page({
   //请求个人语音列表
   fetchList: function() {
     var _this = this
-    var token = _this.data.token
-    var per = _this.data.per
-    var page = _this.data.page
+    var token = this.data.token
+    var per = this.data.per
+    var page = this.data.page
 
     wx.showToast({
       title: '加载中',
@@ -59,23 +61,24 @@ Page({
     })
 
     if(page === 1) {
-      _this.setData({ list: [] });
+      this.setData({ list: [] });
     }
 
     wx.request({
-      url: `https://tinyapp.sparklog.com/imaginations/mine?per=${per}&page=${page}&token=${token}`,
+      url: `${Api.host}/imaginations/mine?per=${per}&page=${page}&token=${token}`,
       method: 'GET',
-      success: function(res){
-        if(res.data.length === 0) _this.setData({done: true})
-        else _this.setData({done: false})
-        
-        _this.setData({list: _this.data.list.concat(res.data.map(function(item){
+      success: (res) => {
+        console.log(res)
+        if(res.data.length === 0) this.setData({done: true})
+        else this.setData({done: false})
+        this.setData({ count: res.data.count })
+        this.setData({list: this.data.list.concat(res.data.result.map((item) => {
             item.duration = util.NumberToTime(Math.floor(item.duration/1000))
-            item.path = 'https://tinyapp.sparklog.com/static/uploads/' + JSON.parse(item.src).filename
+            item.path = Api.host + '/static/uploads/' + JSON.parse(item.src).filename
             return item
           }))
         })
-        console.log('meList:', _this.data.list)
+        console.log('MeList: ',this.data.list)
       }
     })
  },
@@ -88,14 +91,16 @@ Page({
     wx.showModal({
       title: '删除',
       content: '确定删除这个资源？',
-      success: function(res) {
+      success: (res) => {
         if(res.confirm) {
           console.log('用户点击确定')
           wx.request({
-            url: 'https://tinyapp.sparklog.com/imagination/'+ id+'?token='+token,
+            url: Api.host + '/imagination/' + id+'?token='+token,
             method: 'DELETE',
-            success: function(res){
+            success: (res) => {
               console.log('删除成功')
+              this.setData({page: 1})
+              this.fetchList()
             },
             fail: function() {              
               console.log('删除失败')

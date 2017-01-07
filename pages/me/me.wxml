@@ -6,7 +6,7 @@
     <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" ></image>
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view>
-  <text class="userinfo-imaginations">{{list.length}}个想法</text>
+  <text class="userinfo-imaginations">{{count}}个想法</text>
 </view>
 
 

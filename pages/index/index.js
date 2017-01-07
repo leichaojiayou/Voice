@@ -12,7 +12,16 @@ Page({
     playing: false,
     scrollTop: 0,
     windowHeight: 0,
-    addButtonisShow: true
+    addButtonisShow: true,
+    itemId: 0
+  },
+
+  onShareAppMessage: function () {
+    return {
+      title: '鸣响',
+      desc: '说出你的想法法，找到志同道合的人',
+      path: '/pages/index/index'
+    }
   },
 
   onLoad: function () {
@@ -43,21 +52,21 @@ Page({
     this.getData()
   },
 
-  onReachBottom: function () {
-    if (this.data.token) {
-      if (!this.data.done) this.lower()
-      else {
-        wx.showToast({
-          title: '没有更多内容',
-          icon: 'success',
-          duration: 600
-        })
-      }
-    }
-  },
+  // onReachBottom: function () {
+  //   if (this.data.token) {
+  //     if (!this.data.done) this.lower()
+  //     else {
+  //       wx.showToast({
+  //         title: '没有更多内容',
+  //         icon: 'success',
+  //         duration: 600
+  //       })
+  //     }
+  //   }
+  // },
 
   bindscroll: function (e) {
-    if (e.detail.scrollTop < 20) {
+    if (e.detail.scrollTop < 60) {
       this.setData({ addButtonisShow: true })
     }
     else {
@@ -72,14 +81,24 @@ Page({
     var page = _this.data.page
     var apiUrl = Api.imaginations + '?per=' + per + '&page=' + page + '&token=' + token
 
-    wx.showToast({
-      title: '加载中',
-      icon: 'loading',
-      duration: 500
-    })
+    if(!this.data.done) {
+      wx.showToast({
+        title: '加载中',
+        icon: 'loading',
+        duration: 500
+      })
+    }
+    else {
+      wx.showToast({
+        title: '没有更多内容',
+        icon: 'success',
+        duration: 600
+      })
+    }
+    
 
     if (page === 1) {
-      _this.setData({ list: [] });
+      this.setData({ list: [] });
     }
 
     wx.request({
@@ -95,14 +114,13 @@ Page({
           })
         }
         // success
-        console.log('获取imaginations成功：', res)
-        if (res.data.length === 0) _this.setData({ done: true })
+        if (res.data.length == 0) _this.setData({ done: true })
         else _this.setData({ done: false })
         wx.stopPullDownRefresh()
         _this.setData({
-          list: _this.data.list.concat(res.data.map(function (item) {
+          list: _this.data.list.concat(res.data.result.map(function (item) {
             item.duration = util.NumberToTime(Math.floor(item.duration / 1000))
-            item.path = 'https://tinyapp.sparklog.com/static/uploads/' + JSON.parse(item.src).filename
+            item.path = Api.host + '/static/uploads/'  + JSON.parse(item.src).filename
             return item
           }))
         })
@@ -120,9 +138,13 @@ Page({
   palyVoice: function (event) {
 
     const path = event.currentTarget.dataset.path
-    this.setData({ itemId: event.currentTarget.dataset.index })
-    console.log(path)
-    this.setData({ playing: true })
+  
+
+    this.setData({
+      playing: true,
+      itemId: event.currentTarget.dataset.index
+    })
+
     wx.downloadFile({
       url: path,
       success: (res) => {
@@ -138,5 +160,9 @@ Page({
         this.setData({ playing: false })
       }
     })
+
+
   }
 })
+
+

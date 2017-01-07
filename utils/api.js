@@ -10,10 +10,13 @@ var imaginations = host + '/imaginations';
 var mine = host + '/imaginations/mine';
 
 var upload = host + '/upload'
+var path = host + '/static/uploads' 
+
 
 
 module.exports = {
     imaginations: imaginations,
     mine: mine,
-    upload: upload
+    upload: upload,
+    host: host
 }
