@@ -1,20 +1,23 @@
-function formatTime(date) {
-  var year = date.getFullYear()
-  var month = date.getMonth() + 1
-  var day = date.getDate()
+var Api = require('./api.js')
 
-  var hour = date.getHours()
-  var minute = date.getMinutes()
-  var second = date.getSeconds()
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+var justfiyToken = function(obj) {
+  wx.request({
+    url: Api.imaginations + '?per=10&page=1&token=' + obj.token,
+    method: 'GET',
+    success: function(res){
+      console.log('验证：',res)
+      if(res.data.name == "JsonWebTokenError") {
+        console.log('验证失败')
+        typeof obj.fail === 'function' && obj.fail()
+      }
+      else {
+        console.log('验证成功')
+        typeof obj.success === 'function' && obj.success()
+      }
+    }
+  })
 }
-
-function formatNumber(n) {
-  n = n.toString()
-  return n[1] ? n : '0' + n
-}
-
 
 //接受一个单位是秒的数字，返回字符串
 var NumberToTime = function(num) {
@@ -73,7 +76,6 @@ var fetchInfo = function(callback) {
           },
           method: 'GET',
           success: function(res){
-            console.log(res)
             typeof callback == "function" && callback(res.data)
             wx.setStorageSync('info', JSON.stringify(res.data))
           },
@@ -86,7 +88,6 @@ var fetchInfo = function(callback) {
         console.error('wx.getUserInfo 在 fethchInfo 中发生错误')
       }
     })
-
   })
 }
 
@@ -94,7 +95,20 @@ var getInfo = function(callback) {
   wx.getStorage({
     key: 'info',
     success: function(res) {
-      typeof callback === "function" && callback(res.data)
+      justfiyToken({
+        token: JSON.parse(res.data).token,
+        success: function() {
+          typeof callback === "function" && callback(res.data)
+        },
+        fail: function() {
+          wx.clearStorage({
+            key: 'info',
+            success: function(res){
+              fetchInfo(callback)
+            }
+          })
+        }
+      })
     },
     fail: function() {
       fetchInfo(callback)
@@ -105,7 +119,6 @@ var getInfo = function(callback) {
 
 
 module.exports = {
-  formatTime: formatTime,
   NumberToTime: NumberToTime,
   getInfo: getInfo
 }

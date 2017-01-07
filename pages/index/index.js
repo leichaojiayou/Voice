@@ -13,7 +13,7 @@ Page({
     scrollTop: 0,
     windowHeight: 0,
     addButtonisShow: true,
-    itemId: 0
+    itemId: 100000
   },
 
   onShareAppMessage: function () {
@@ -25,9 +25,9 @@ Page({
   },
 
   onLoad: function () {
-
+    
     util.getInfo((info) => {
-      typeof info === 'object' ? '' : info = JSON.parse(info)
+      typeof info === 'object' ? '' : info = JSON.parse(info)      
       this.setData({ token: info.token });
       this.getData();
     })
@@ -35,6 +35,24 @@ Page({
     wx.getSystemInfo({
       success: (res) => {
         this.setData({ windowHeight: res.windowHeight })
+      }
+    })
+  },
+
+  justfiyToken: function(obj) {
+    wx.request({
+      url: Api.imaginations + '?per=10&page=1&token=' + obj.token,
+      method: 'GET',
+      success: function(res){
+        console.log('验证：',res)
+        if(res.data.name == "JsonWebTokenError") {
+          console.log('验证失败')
+          typeof obj.fail === 'function' && obj.fail()
+        }
+        else {
+          console.log('验证成功')
+          typeof obj.success === 'function' && obj.success()
+        }
       }
     })
   },

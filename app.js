@@ -1,6 +1,6 @@
 //app.js
 //
-
+var util = require('./utils/util.js')
 
 App({
   onLaunch: function () {
@@ -8,6 +8,7 @@ App({
     // var logs = wx.getStorageSync('logs') || []
     // logs.unshift(Date.now())
     // wx.setStorageSync('logs', logs)
+    
 
   },
   globalData:{

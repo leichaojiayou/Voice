@@ -17,6 +17,7 @@ Page({
     wx.getStorage({
       key: 'info',
       success: (res) => {
+        
         this.setData({token: JSON.parse(res.data).token})
         this.setData({userInfo: JSON.parse(res.data).wxInfo})
         
@@ -26,8 +27,12 @@ Page({
   },
   //要么支持onShow，要么支持下拉刷新。
   onShow: function() {
-    this.fetchList()
+    if(this.data.token) {
+      this.fetchList()
+    }
   },
+
+  
 
   onReachBottom: function() {
     if(this.data.token) {
