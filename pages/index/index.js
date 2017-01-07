@@ -25,12 +25,18 @@ Page({
   },
 
   onLoad: function () {
-    
-    util.getInfo((info) => {
-      typeof info === 'object' ? '' : info = JSON.parse(info)      
-      this.setData({ token: info.token });
-      this.getData();
+    wx.clearStorage({
+      key: 'info',
+      success: (res) => {
+        // success
+        util.getInfo((info) => {
+          typeof info === 'object' ? '' : info = JSON.parse(info)      
+          this.setData({ token: info.token });
+          this.getData();
+        })
+      }
     })
+    
 
     wx.getSystemInfo({
       success: (res) => {
